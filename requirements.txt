@@ -1,0 +1,18 @@
+# Core AI
+google-genai>=0.5
+python-dotenv>=1.0
+
+# Voice input (Speech-to-Text)
+SpeechRecognition>=3.10
+pyaudio>=0.2.14
+
+# Voice output fallback (if no voice sample)
+pyttsx3>=2.90
+
+# Voice cloning (XTTS v2) — optional but recommended
+# Requires: pip install coqui-tts torch torchvision torchaudio
+# Install PyTorch FIRST from https://pytorch.org/get-started/locally/
+# Then: pip install coqui-tts
+
+# WebSocket server
+websockets>=12.0

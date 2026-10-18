@@ -1,0 +1,37 @@
+# Environment / secrets
+.env
+
+# Voice sample (large binary, personal)
+angel_voice.wav
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# XTTS / TTS model cache (auto-downloaded, huge)
+tts_models/
+~/.local/share/tts/
+
+# Temp audio files
+*.tmp.wav
+tmp_*.wav
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
