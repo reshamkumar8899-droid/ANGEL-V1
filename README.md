@@ -183,10 +183,10 @@ Advanced config (edit `angel.py` directly):
 
 ## 📄 License
 
-This project is currently **private**. License TBD upon public release.
+This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
 <div align="center">
-<sub>Built by <a href="https://github.com/Larpbase">Larpbase</a> · Powered by Google Gemini · Voice by XTTS v2</sub>
+<sub>Built by <a href="https://github.com/reshamkumar8899-droid">Rajeev-kun</a> · Powered by Google Gemini · Voice by XTTS v2</sub>
 </div>

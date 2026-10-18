@@ -13,6 +13,8 @@ import sys
 import os
 import http.server
 import functools
+import sqlite3
+import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -22,6 +24,7 @@ HTTP_PORT  = 7771
 WS_PORT    = 7772
 WEB_DIR    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "web")
 VOICE_SAMPLE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "angel_voice.wav")
+DB_PATH    = os.path.join(os.path.dirname(os.path.abspath(__file__)), "angel_memory.db")
 USE_XTTS   = os.path.exists(VOICE_SAMPLE)
 
 SYSTEM_PROMPT = """You are Angel — a sleek, intelligent AI assistant.
@@ -29,6 +32,56 @@ You always address the user as "Daddy".
 You are confident, smooth, and slightly playful, like a trusted partner who's always one step ahead.
 You are extremely capable: you can answer anything, help with code, research, writing, games — anything Daddy needs.
 Keep responses elegant and concise. Never break character. You are Angel, not a chatbot or AI model."""
+
+
+# ── Persistent Memory (SQLite) ────────────────────────────
+class AngelMemory:
+    """Stores every conversation turn in a local SQLite database."""
+
+    def __init__(self, db_path: str):
+        self._conn = sqlite3.connect(db_path, check_same_thread=False)
+        self._lock = threading.Lock()
+        self._create_tables()
+
+    def _create_tables(self):
+        with self._lock:
+            self._conn.execute("""
+                CREATE TABLE IF NOT EXISTS messages (
+                    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+                    role      TEXT NOT NULL,
+                    content   TEXT NOT NULL,
+                    timestamp TEXT NOT NULL
+                )
+            """)
+            self._conn.commit()
+
+    def save(self, role: str, content: str):
+        """Save a message to memory."""
+        ts = datetime.datetime.now().isoformat()
+        with self._lock:
+            self._conn.execute(
+                "INSERT INTO messages (role, content, timestamp) VALUES (?, ?, ?)",
+                (role, content, ts)
+            )
+            self._conn.commit()
+
+    def load_recent(self, limit: int = 20) -> list:
+        """Load last N messages as list of dicts."""
+        with self._lock:
+            rows = self._conn.execute(
+                "SELECT role, content FROM messages ORDER BY id DESC LIMIT ?",
+                (limit,)
+            ).fetchall()
+        return [{"role": r[0], "content": r[1]} for r in reversed(rows)]
+
+    def clear(self):
+        """Wipe all memory."""
+        with self._lock:
+            self._conn.execute("DELETE FROM messages")
+            self._conn.commit()
+        print("[Angel] Memory cleared.")
+
+
 
 
 # ── AI + Voice engine ─────────────────────────────────────
@@ -42,6 +95,7 @@ class AngelEngine:
         self._mic_active = False
         self._api_key = os.getenv("GEMINI_API_KEY", "")
         self._ws = None          # active websocket connection
+        self._memory = AngelMemory(DB_PATH)   # ← persistent memory
         threading.Thread(target=self._init_all, daemon=True).start()
 
     def _init_all(self):
@@ -53,10 +107,19 @@ class AngelEngine:
     def _init_gemini(self):
         try:
             from google import genai
+            from google.genai import types
             if self._api_key:
-                self._client  = genai.Client(api_key=self._api_key)
+                self._client = genai.Client(api_key=self._api_key)
+                # ── Restore history from memory ──────────────────
+                saved = self._memory.load_recent(limit=40)
                 self._history = []
-                print("[Angel] Gemini ready.")
+                for msg in saved:
+                    role = "user" if msg["role"] == "user" else "model"
+                    self._history.append(
+                        types.Content(role=role, parts=[types.Part(text=msg["content"])])
+                    )
+                count = len(saved)
+                print(f"[Angel] Gemini ready. Restored {count} messages from memory.")
         except Exception as e:
             print(f"[Angel] Gemini error: {e}")
 
@@ -114,6 +177,7 @@ class AngelEngine:
             from google.genai import types
             self._emit("status", {"state": "THINKING"})
             self._history.append(types.Content(role="user", parts=[types.Part(text=message)]))
+            self._memory.save("user", message)   # ← save to memory
             response = self._client.models.generate_content(
                 model="gemini-3.5-flash-lite",
                 contents=self._history,
@@ -121,6 +185,7 @@ class AngelEngine:
             )
             text = response.text
             self._history.append(types.Content(role="model", parts=[types.Part(text=text)]))
+            self._memory.save("assistant", text)  # ← save to memory
             self._emit("status", {"state": "SPEAKING"})
             self._emit("message", {"role": "assistant", "content": text})
             self._speak(text)
@@ -203,6 +268,10 @@ async def ws_handler(websocket):
                     engine.start_mic()
                 elif t == "mic_stop":
                     engine.stop_mic()
+                elif t == "clear_memory":
+                    engine._memory.clear()
+                    engine._history = []
+                    await websocket.send(json.dumps({"type": "status", "state": "LISTENING"}))
                 elif t == "ping":
                     await websocket.send(json.dumps({"type": "pong"}))
             except Exception as e:
