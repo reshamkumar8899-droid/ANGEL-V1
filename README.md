@@ -23,10 +23,16 @@
 |---|---|
 | 🧠 Gemini AI (conversational brain) | ✅ Active |
 | 🎙️ Microphone voice input | ✅ Active |
+| 👂 Wake word detection ("Hey Angel") | ✅ Active |
 | 🗣️ XTTS v2 voice cloning | ✅ Active |
 | 💻 Custom cyan HUD interface | ✅ Active |
 | 🌐 Chrome app mode (native window feel) | ✅ Active |
 | ⚡ Real-time WebSocket communication | ✅ Active |
+| 💾 Persistent memory across sessions | ✅ Active |
+| 🔍 Live web search (DuckDuckGo) | ✅ Active |
+| 🖥️ PC control (apps, screenshots, volume) | ✅ Active |
+| ⏰ Proactive reminders & timers | ✅ Active |
+| 🎵 Music / media control | ✅ Active |
 
 ---
 
@@ -177,7 +183,7 @@ Advanced config (edit `angel.py` directly):
 - [x] PC control (open apps, screenshots, volume)
 - [x] Wake word detection ("Hey Angel")
 - [x] Proactive reminders & timers
-- [ ] Music / media control
+- [x] Music / media control (play, pause, skip, previous)
 
 ---
 

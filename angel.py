@@ -48,6 +48,18 @@ PC_TRIGGERS = (
     "screenshot", "take a screenshot", "snap screen",
     "close ", "volume up", "volume down", "mute",
     "type ", "press ", "click ",
+    # music / media
+    "play ", "pause", "resume", "stop music", "next song",
+    "next track", "previous song", "previous track", "skip",
+    "go back song", "replay", "restart song",
+)
+
+# Music-specific keywords → media key mapping
+MUSIC_TRIGGERS = (
+    "play ", "pause", "resume", "stop music",
+    "next song", "next track", "skip song", "skip track", "skip",
+    "previous song", "previous track", "go back song", "prev song",
+    "replay", "restart song",
 )
 
 # Common app name → executable mapping
@@ -378,7 +390,48 @@ class AngelEngine:
             pyautogui.press("volumemute")
             return "Muted, Daddy."
 
+        # ── Music / Media control ─────────────────────────
+        if any(t in low for t in MUSIC_TRIGGERS):
+            return self._handle_music(low)
+
         return ""  # not a recognized PC command
+
+    def _handle_music(self, low: str) -> str:
+        """Control media player via system media keys."""
+        import pyautogui
+
+        # Play / Resume
+        if any(k in low for k in ("play ", "resume", "unpause")):
+            pyautogui.press("playpause")
+            return "Playing, Daddy."
+
+        # Pause
+        if "pause" in low:
+            pyautogui.press("playpause")
+            return "Paused, Daddy."
+
+        # Next track
+        if any(k in low for k in ("next song", "next track", "skip song", "skip track", "skip")):
+            pyautogui.press("nexttrack")
+            return "Skipping to the next track, Daddy."
+
+        # Previous track
+        if any(k in low for k in ("previous song", "previous track", "go back song", "prev song")):
+            pyautogui.press("prevtrack")
+            return "Going back to the previous track, Daddy."
+
+        # Stop
+        if "stop music" in low:
+            pyautogui.press("stop")
+            return "Music stopped, Daddy."
+
+        # Replay / restart
+        if any(k in low for k in ("replay", "restart song")):
+            pyautogui.press("prevtrack")
+            return "Restarting the track, Daddy."
+
+        return "Not sure what to do with the music, Daddy."
+
 
     def _open_app(self, app_name: str) -> str:
         """Open an app by name."""
