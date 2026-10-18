@@ -67,6 +67,9 @@ function handleEvent(msg) {
     case 'wake':
       handleWake();
       break;
+    case 'reminder':
+      handleReminder(msg.content);
+      break;
     case 'pong':
       break;
   }
@@ -92,6 +95,26 @@ function handleWake() {
 }
 
 
+// ── Reminder notification ─────────────────────────────
+function handleReminder(content) {
+  // Add to chat log as a special reminder card
+  const log = document.getElementById('chatLog');
+  const div = document.createElement('div');
+  div.className = 'message assistant reminder-card';
+  div.style.cssText = 'border: 1px solid #00ffcc; box-shadow: 0 0 12px #00ffcc55; animation: pulse-border 1s ease 3;';
+  div.innerHTML = `<span class="msg-label" style="color:#00ffcc;">REMINDER</span><span class="msg-text">${escapeHtml(content)}</span>`;
+  log.appendChild(div);
+  log.scrollTop = log.scrollHeight;
+  setResponseText(escapeHtml(content));
+  // Flash state
+  setState('REMINDER');
+  // Auto-reset state after 5s
+  setTimeout(() => setState('LISTENING'), 5000);
+  // Remove the glow after 8s (keep message in log)
+  setTimeout(() => { div.style.border = ''; div.style.boxShadow = ''; }, 8000);
+}
+
+
 // ── State machine ─────────────────────────────────────────
 const STATE_COLORS = {
   LISTENING:  '#00d4ff',
@@ -99,6 +122,7 @@ const STATE_COLORS = {
   SPEAKING:   '#10b981',
   SEARCHING:  '#a855f7',
   WAKING:     '#00ffcc',
+  REMINDER:   '#00ffcc',
   MUTED:      '#6b7280',
   CONNECTING: '#8b5cf6',
   OFFLINE:    '#4b5563',

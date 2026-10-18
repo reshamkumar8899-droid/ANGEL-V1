@@ -176,7 +176,7 @@ Advanced config (edit `angel.py` directly):
 - [x] Live web search
 - [x] PC control (open apps, screenshots, volume)
 - [x] Wake word detection ("Hey Angel")
-- [ ] Proactive reminders & timers
+- [x] Proactive reminders & timers
 - [ ] Music / media control
 
 ---

@@ -15,6 +15,7 @@ import http.server
 import functools
 import sqlite3
 import datetime
+import re
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -69,6 +70,84 @@ APP_MAP = {
     "word":         "winword.exe",
     "excel":        "excel.exe",
 }
+
+# Keywords that trigger reminder/timer creation
+REMINDER_TRIGGERS = (
+    "remind me", "set a reminder", "set a timer", "set timer",
+    "alert me", "notify me", "wake me", "after ", "in ",
+    "don't let me forget", "dont let me forget",
+)
+
+
+# ── Reminder Engine ───────────────────────────────────────
+class AngelReminders:
+    """Manages proactive reminders using threading.Timer."""
+
+    # Matches: "in 5 minutes", "after 2 hours", "in 30 seconds", "in 1 hour"
+    TIME_PATTERN = re.compile(
+        r'\b(?:in|after)\s+(\d+(?:\.\d+)?)\s*(second|sec|minute|min|hour|hr)s?\b',
+        re.IGNORECASE
+    )
+    # Multipliers to convert to seconds
+    UNIT_MAP = {
+        "second": 1, "sec": 1,
+        "minute": 60, "min": 60,
+        "hour": 3600, "hr": 3600,
+    }
+
+    def __init__(self):
+        self._timers = []   # track active timers
+
+    def parse_reminder(self, message: str):
+        """
+        Parse message for reminder intent.
+        Returns (seconds, label) or (None, None) if not a reminder.
+        """
+        low = message.lower()
+        # Must contain a reminder keyword
+        if not any(t in low for t in REMINDER_TRIGGERS):
+            return None, None
+        # Must contain a time pattern
+        match = self.TIME_PATTERN.search(message)
+        if not match:
+            return None, None
+
+        amount = float(match.group(1))
+        unit   = match.group(2).lower()
+        seconds = int(amount * self.UNIT_MAP.get(unit, 60))
+
+        # Extract the reminder label — everything after "to" or "about" or "for"
+        label = ""
+        for kw in (" to ", " about ", " for "):
+            idx = low.find(kw)
+            if idx != -1:
+                label = message[idx + len(kw):].strip()
+                # Strip trailing time clause if it crept in
+                label = self.TIME_PATTERN.sub("", label).strip(" ,.")
+                break
+        if not label:
+            label = "your reminder"
+
+        return seconds, label
+
+    def schedule(self, seconds: int, label: str, emit_fn, speak_fn):
+        """Schedule a reminder to fire after `seconds`."""
+        def _fire():
+            msg = f"Daddy, just a reminder — {label}."
+            emit_fn("reminder", {"content": msg})
+            speak_fn(msg)
+            print(f"[Angel] Reminder fired: {label}")
+
+        t = threading.Timer(seconds, _fire)
+        t.daemon = True
+        t.start()
+        self._timers.append(t)
+        print(f"[Angel] Reminder set: '{label}' in {seconds}s")
+
+    def cancel_all(self):
+        for t in self._timers:
+            t.cancel()
+        self._timers.clear()
 
 
 # ── Persistent Memory (SQLite) ────────────────────────────
@@ -129,11 +208,12 @@ class AngelEngine:
         self._xtts       = None
         self._tts_engine = None
         self._recognizer = None
-        self._mic_active = False
-        self._wake_active = True          # wake word listener running
+        self._mic_active  = False
+        self._wake_active = True
         self._api_key    = os.getenv("GEMINI_API_KEY", "")
-        self._ws         = None           # active websocket connection
+        self._ws         = None
         self._memory     = AngelMemory(DB_PATH)
+        self._reminders  = AngelReminders()      # ← proactive reminders
         threading.Thread(target=self._init_all, daemon=True).start()
 
     def _init_all(self):
@@ -343,7 +423,21 @@ class AngelEngine:
             from google.genai import types
             self._emit("status", {"state": "THINKING"})
 
-            # ── PC control intercept (runs before AI/search) ──
+            # ── Reminder intercept (highest priority) ─────────
+            secs, label = self._reminders.parse_reminder(message)
+            if secs is not None:
+                mins = secs // 60
+                time_str = f"{mins} minute{'s' if mins != 1 else ''}" if mins >= 1 else f"{secs} second{'s' if secs != 1 else ''}"
+                reply = f"Got it, Daddy. I'll remind you to {label} in {time_str}."
+                self._memory.save("user", message)
+                self._memory.save("assistant", reply)
+                self._emit("status", {"state": "SPEAKING"})
+                self._emit("message", {"role": "assistant", "content": reply})
+                self._reminders.schedule(secs, label, self._emit, self._speak)
+                self._speak(reply)
+                return
+
+            # ── PC control intercept ──────────────────────────
             if self._needs_pc_control(message):
                 result = self._handle_pc_command(message)
                 if result:
