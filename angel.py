@@ -124,15 +124,16 @@ class AngelMemory:
 # ── AI + Voice engine ─────────────────────────────────────
 class AngelEngine:
     def __init__(self):
-        self._client  = None
-        self._history = []
-        self._xtts    = None
+        self._client     = None
+        self._history    = []
+        self._xtts       = None
         self._tts_engine = None
         self._recognizer = None
         self._mic_active = False
-        self._api_key = os.getenv("GEMINI_API_KEY", "")
-        self._ws = None          # active websocket connection
-        self._memory = AngelMemory(DB_PATH)   # ← persistent memory
+        self._wake_active = True          # wake word listener running
+        self._api_key    = os.getenv("GEMINI_API_KEY", "")
+        self._ws         = None           # active websocket connection
+        self._memory     = AngelMemory(DB_PATH)
         threading.Thread(target=self._init_all, daemon=True).start()
 
     def _init_all(self):
@@ -140,6 +141,8 @@ class AngelEngine:
         self._init_tts()
         self._init_stt()
         self._emit("status", {"state": "LISTENING"})
+        # start wake word listener after everything is ready
+        threading.Thread(target=self._wake_word_loop, daemon=True).start()
 
     def _init_gemini(self):
         try:
@@ -192,6 +195,39 @@ class AngelEngine:
             print("[Angel] Mic ready ✓")
         except Exception as e:
             print(f"[Angel] Mic unavailable: {e}")
+
+    # ── Wake Word Listener ────────────────────────────────
+    WAKE_WORDS = ("hey angel", "angel", "yo angel", "ok angel", "wake up angel")
+
+    def _wake_word_loop(self):
+        """Continuously listens for wake word in background."""
+        if not self._recognizer:
+            return
+        import speech_recognition as sr
+        print("[Angel] Wake word listener active — say 'Hey Angel' to activate")
+        while self._wake_active:
+            # Skip listening if mic is already active (user already talking)
+            if self._mic_active:
+                import time; time.sleep(0.5)
+                continue
+            try:
+                with sr.Microphone() as src:
+                    self._recognizer.adjust_for_ambient_noise(src, duration=0.3)
+                    # Short timeout — just checking for wake word
+                    audio = self._recognizer.listen(src, timeout=3, phrase_time_limit=3)
+                text = self._recognizer.recognize_google(audio).lower()
+                print(f"[Angel] Wake listener heard: '{text}'")
+                if any(w in text for w in self.WAKE_WORDS):
+                    print("[Angel] Wake word detected!")
+                    self._emit("wake", {"text": text})
+                    # Slight pause so the full mic capture doesn't pick up the wake word
+                    import time; time.sleep(0.6)
+            except sr.WaitTimeoutError:
+                pass   # silence — keep looping
+            except sr.UnknownValueError:
+                pass   # couldn't understand — keep looping
+            except Exception as e:
+                import time; time.sleep(1)  # brief pause on error, then retry
 
     # ── Emit helper (thread-safe) ─────────────────────────
     def _emit(self, type_: str, data: dict):
@@ -424,6 +460,11 @@ async def ws_handler(websocket):
                     engine._memory.clear()
                     engine._history = []
                     await websocket.send(json.dumps({"type": "status", "state": "LISTENING"}))
+                elif t == "toggle_wake":
+                    engine._wake_active = not engine._wake_active
+                    state = "on" if engine._wake_active else "off"
+                    print(f"[Angel] Wake word listener: {state}")
+                    await websocket.send(json.dumps({"type": "pong"}))
                 elif t == "ping":
                     await websocket.send(json.dumps({"type": "pong"}))
             except Exception as e:

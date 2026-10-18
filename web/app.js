@@ -64,16 +64,41 @@ function handleEvent(msg) {
     case 'transcript':
       setTranscript(msg.content || '');
       break;
+    case 'wake':
+      handleWake();
+      break;
     case 'pong':
       break;
   }
 }
+
+// ── Wake word activation ───────────────────────────────
+function handleWake() {
+  if (isWaiting || micActive) return;
+  setState('WAKING');
+  setTranscript('Wake word detected — listening...');
+  const orb = document.getElementById('orb');
+  orb.style.transform = 'scale(1.4)';
+  setTimeout(() => { orb.style.transform = ''; }, 500);
+  setTimeout(() => {
+    if (!micActive) {
+      micActive = true;
+      const btn = document.getElementById('micBtn');
+      if (btn) btn.classList.add('active');
+      send({ type: 'mic_start' });
+      setState('LISTENING');
+    }
+  }, 600);
+}
+
 
 // ── State machine ─────────────────────────────────────────
 const STATE_COLORS = {
   LISTENING:  '#00d4ff',
   THINKING:   '#f59e0b',
   SPEAKING:   '#10b981',
+  SEARCHING:  '#a855f7',
+  WAKING:     '#00ffcc',
   MUTED:      '#6b7280',
   CONNECTING: '#8b5cf6',
   OFFLINE:    '#4b5563',
