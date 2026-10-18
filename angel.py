@@ -52,6 +52,9 @@ PC_TRIGGERS = (
     "play ", "pause", "resume", "stop music", "next song",
     "next track", "previous song", "previous track", "skip",
     "go back song", "replay", "restart song",
+    # spotify
+    "on spotify", "spotify play", "search spotify",
+    "spotify search", "play on spotify", "find on spotify",
 )
 
 # Music-specific keywords → media key mapping
@@ -61,6 +64,13 @@ MUSIC_TRIGGERS = (
     "previous song", "previous track", "go back song", "prev song",
     "replay", "restart song",
 )
+
+# Spotify search triggers
+SPOTIFY_TRIGGERS = (
+    "on spotify", "spotify play", "search spotify",
+    "spotify search", "play on spotify", "find on spotify",
+)
+
 
 # Common app name → executable mapping
 APP_MAP = {
@@ -390,11 +400,16 @@ class AngelEngine:
             pyautogui.press("volumemute")
             return "Muted, Daddy."
 
+        # ── Spotify search (before generic music) ────────────
+        if any(t in low for t in SPOTIFY_TRIGGERS):
+            return self._handle_spotify(message)
+
         # ── Music / Media control ─────────────────────────
         if any(t in low for t in MUSIC_TRIGGERS):
             return self._handle_music(low)
 
         return ""  # not a recognized PC command
+
 
     def _handle_music(self, low: str) -> str:
         """Control media player via system media keys."""
@@ -431,6 +446,48 @@ class AngelEngine:
             return "Restarting the track, Daddy."
 
         return "Not sure what to do with the music, Daddy."
+
+
+    def _handle_spotify(self, message: str) -> str:
+        """Parse and open a Spotify search via URI scheme."""
+        low = message.lower()
+
+        # Extract the query — strip spotify keywords to get the song/artist name
+        query = low
+        for strip in ("on spotify", "play on spotify", "spotify play",
+                      "search spotify for", "search spotify",
+                      "spotify search for", "spotify search",
+                      "find on spotify", "play", "search", "find"):
+            query = query.replace(strip, "").strip()
+        query = query.strip(" ,.")
+
+        if not query:
+            # Just open Spotify if no query
+            subprocess.Popen("spotify.exe", shell=True)
+            return "Opening Spotify for you, Daddy."
+
+        # URI scheme — opens Spotify app directly to search results
+        uri = f"spotify:search:{query.replace(' ', '%20')}"
+        try:
+            import urllib.parse
+            clean_uri = f"spotify:search:{urllib.parse.quote(query)}"
+            os.startfile(clean_uri)
+            print(f"[Angel] Spotify search: {query}")
+            return f"Searching Spotify for '{query}', Daddy. Hit play on what you want."
+        except Exception:
+            # Fallback: open Spotify web player search in Chrome
+            import urllib.parse
+            web_url = f"https://open.spotify.com/search/{urllib.parse.quote(query)}"
+            chrome_paths = [
+                r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+                r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+            ]
+            for chrome in chrome_paths:
+                if os.path.exists(chrome):
+                    subprocess.Popen([chrome, web_url])
+                    return f"Opening Spotify web search for '{query}', Daddy."
+            webbrowser.open(web_url)
+            return f"Searching Spotify for '{query}', Daddy."
 
 
     def _open_app(self, app_name: str) -> str:
