@@ -243,8 +243,48 @@ class AngelEngine:
         self._init_tts()
         self._init_stt()
         self._emit("status", {"state": "LISTENING"})
-        # start wake word listener after everything is ready
-        threading.Thread(target=self._wake_word_loop, daemon=True).start()
+        # start wake word listener
+        threading.Thread(target=self._wake_word_loop,   daemon=True).start()
+        # start battery monitor
+        threading.Thread(target=self._battery_monitor,  daemon=True).start()
+
+    # ── Battery Monitor ───────────────────────────────────
+    def _battery_monitor(self):
+        """Checks battery every 60s and alerts at 30% and 10%."""
+        try:
+            import psutil
+            import time
+            alerted_30 = False
+            alerted_10 = False
+            print("[Angel] Battery monitor active.")
+            while True:
+                time.sleep(60)
+                batt = psutil.sensors_battery()
+                if batt is None:
+                    continue   # desktop / no battery
+                pct = int(batt.percent)
+                charging = batt.power_plugged
+
+                if not charging and pct <= 10 and not alerted_10:
+                    alerted_10 = True
+                    msg = f"Daddy, battery is critically low at {pct}%. Plug in now!"
+                    self._emit("reminder", {"content": msg})
+                    self._speak(msg)
+
+                elif not charging and pct <= 30 and not alerted_30:
+                    alerted_30 = True
+                    msg = f"Daddy, battery is at {pct}%. You should plug in soon."
+                    self._emit("reminder", {"content": msg})
+                    self._speak(msg)
+
+                # Reset alerts if plugged back in and recharged past threshold
+                if charging or pct > 35:
+                    alerted_30 = False
+                if charging or pct > 15:
+                    alerted_10 = False
+
+        except Exception as e:
+            print(f"[Angel] Battery monitor error: {e}")
 
     def _init_gemini(self):
         try:

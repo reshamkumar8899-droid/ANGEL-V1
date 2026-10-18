@@ -22,3 +22,6 @@ websockets>=12.0
 
 # PC Control (open apps, screenshots, volume)
 pyautogui>=0.9.54
+
+# Battery & system monitoring
+psutil>=5.9
