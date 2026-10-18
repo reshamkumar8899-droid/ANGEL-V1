@@ -41,6 +41,34 @@ SEARCH_TRIGGERS = (
     "weather", "score", "update", "release", "when did",
 )
 
+# Keywords that trigger PC control
+PC_TRIGGERS = (
+    "open ", "launch ", "start ", "run ",
+    "screenshot", "take a screenshot", "snap screen",
+    "close ", "volume up", "volume down", "mute",
+    "type ", "press ", "click ",
+)
+
+# Common app name → executable mapping
+APP_MAP = {
+    "spotify":      "spotify.exe",
+    "chrome":       r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+    "discord":      "discord.exe",
+    "notepad":      "notepad.exe",
+    "calculator":   "calc.exe",
+    "file explorer":"explorer.exe",
+    "explorer":     "explorer.exe",
+    "task manager": "taskmgr.exe",
+    "cmd":          "cmd.exe",
+    "terminal":     "wt.exe",
+    "vs code":      "code.exe",
+    "vscode":       "code.exe",
+    "steam":        "steam.exe",
+    "vlc":          "vlc.exe",
+    "paint":        "mspaint.exe",
+    "word":         "winword.exe",
+    "excel":        "excel.exe",
+}
 
 
 # ── Persistent Memory (SQLite) ────────────────────────────
@@ -197,7 +225,76 @@ class AngelEngine:
         low = message.lower()
         return any(t in low for t in SEARCH_TRIGGERS)
 
-    # ── Send message ──────────────────────────────────────
+    def _needs_pc_control(self, message: str) -> bool:
+        """Detect if message is a PC control command."""
+        low = message.lower()
+        return any(t in low for t in PC_TRIGGERS)
+
+    # ── PC Control ────────────────────────────────────────
+    def _handle_pc_command(self, message: str) -> str:
+        """Parse and execute a PC control command. Returns result string."""
+        low = message.lower()
+
+        # ── Screenshot ───────────────────────────────────
+        if any(k in low for k in ("screenshot", "snap screen", "take a screenshot")):
+            return self._take_screenshot()
+
+        # ── Open app ─────────────────────────────────────
+        if any(low.startswith(k) for k in ("open ", "launch ", "start ", "run ")):
+            # extract app name after the verb
+            for verb in ("open ", "launch ", "start ", "run "):
+                if low.startswith(verb):
+                    app_name = low[len(verb):].strip()
+                    break
+            return self._open_app(app_name)
+
+        # ── Volume ───────────────────────────────────────
+        if "volume up" in low:
+            import pyautogui
+            for _ in range(5): pyautogui.press("volumeup")
+            return "Volume up, Daddy."
+        if "volume down" in low:
+            import pyautogui
+            for _ in range(5): pyautogui.press("volumedown")
+            return "Volume down, Daddy."
+        if "mute" in low:
+            import pyautogui
+            pyautogui.press("volumemute")
+            return "Muted, Daddy."
+
+        return ""  # not a recognized PC command
+
+    def _open_app(self, app_name: str) -> str:
+        """Open an app by name."""
+        # Check known map first
+        for key, exe in APP_MAP.items():
+            if key in app_name:
+                try:
+                    subprocess.Popen(exe, shell=True)
+                    return f"Opening {key} for you, Daddy."
+                except Exception as e:
+                    return f"Couldn't open {key}, Daddy: {e}"
+        # Try running directly as command
+        try:
+            subprocess.Popen(app_name, shell=True)
+            return f"Trying to open '{app_name}' for you, Daddy."
+        except Exception as e:
+            return f"Couldn't open '{app_name}', Daddy: {e}"
+
+    def _take_screenshot(self) -> str:
+        """Take a screenshot and save it to the desktop."""
+        try:
+            import pyautogui
+            desktop = os.path.join(os.path.expanduser("~"), "Desktop")
+            ts = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            path = os.path.join(desktop, f"angel_screenshot_{ts}.png")
+            pyautogui.screenshot(path)
+            print(f"[Angel] Screenshot saved: {path}")
+            return f"Screenshot saved to your Desktop as angel_screenshot_{ts}.png, Daddy."
+        except Exception as e:
+            return f"Couldn't take screenshot, Daddy: {e}"
+
+
     def send_message(self, message: str):
         threading.Thread(target=self._send_thread, args=(message,), daemon=True).start()
 
@@ -210,6 +307,17 @@ class AngelEngine:
             from google.genai import types
             self._emit("status", {"state": "THINKING"})
 
+            # ── PC control intercept (runs before AI/search) ──
+            if self._needs_pc_control(message):
+                result = self._handle_pc_command(message)
+                if result:
+                    self._memory.save("user", message)
+                    self._memory.save("assistant", result)
+                    self._emit("status", {"state": "SPEAKING"})
+                    self._emit("message", {"role": "assistant", "content": result})
+                    self._speak(result)
+                    return
+
             # ── Web search injection ──────────────────────
             prompt = message
             if self._needs_search(message):
@@ -218,7 +326,7 @@ class AngelEngine:
                 if web_ctx:
                     prompt = f"{web_ctx}\n\nUsing the above web results, answer this: {message}"
 
-            self._memory.save("user", message)   # ← save original message to memory
+            self._memory.save("user", message)
             self._history.append(types.Content(role="user", parts=[types.Part(text=prompt)]))
             self._emit("status", {"state": "THINKING"})
             response = self._client.models.generate_content(
@@ -228,9 +336,10 @@ class AngelEngine:
             )
             text = response.text
             self._history.append(types.Content(role="model", parts=[types.Part(text=text)]))
-            self._memory.save("assistant", text)  # ← save to memory
+            self._memory.save("assistant", text)
             self._emit("status", {"state": "SPEAKING"})
             self._emit("message", {"role": "assistant", "content": text})
+
             self._speak(text)
         except Exception as e:
             self._emit("status", {"state": "LISTENING"})

@@ -174,8 +174,8 @@ Advanced config (edit `angel.py` directly):
 
 - [x] Persistent memory across sessions
 - [x] Live web search
+- [x] PC control (open apps, screenshots, volume)
 - [ ] Wake word detection ("Hey Angel")
-- [ ] PC control (open apps, screenshots)
 - [ ] Proactive reminders & timers
 - [ ] Music / media control
 
