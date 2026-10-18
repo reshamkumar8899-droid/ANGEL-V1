@@ -172,9 +172,9 @@ Advanced config (edit `angel.py` directly):
 
 ## 🗺️ Roadmap
 
+- [x] Persistent memory across sessions
+- [x] Live web search
 - [ ] Wake word detection ("Hey Angel")
-- [ ] Persistent memory across sessions
-- [ ] Live web search
 - [ ] PC control (open apps, screenshots)
 - [ ] Proactive reminders & timers
 - [ ] Music / media control

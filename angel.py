@@ -33,6 +33,15 @@ You are confident, smooth, and slightly playful, like a trusted partner who's al
 You are extremely capable: you can answer anything, help with code, research, writing, games — anything Daddy needs.
 Keep responses elegant and concise. Never break character. You are Angel, not a chatbot or AI model."""
 
+# Keywords that trigger a live web search before answering
+SEARCH_TRIGGERS = (
+    "search", "look up", "lookup", "find", "google",
+    "latest", "recent", "news", "today", "right now",
+    "current", "who is", "what is happening", "price of",
+    "weather", "score", "update", "release", "when did",
+)
+
+
 
 # ── Persistent Memory (SQLite) ────────────────────────────
 class AngelMemory:
@@ -164,6 +173,30 @@ class AngelEngine:
                 self._ws.send(payload), self._loop
             )
 
+    # ── Web Search ────────────────────────────────────────
+    def _web_search(self, query: str) -> str:
+        """Search DuckDuckGo and return top results as a string."""
+        try:
+            from ddgs import DDGS
+            with DDGS() as ddgs:
+                results = list(ddgs.text(query, max_results=3))
+            if not results:
+                return ""
+            lines = [f"[Web Search Results for: '{query}']"]
+            for i, r in enumerate(results, 1):
+                lines.append(f"{i}. {r.get('title','')}: {r.get('body','')}")
+            summary = "\n".join(lines)
+            print(f"[Angel] Web search: {query} → {len(results)} results")
+            return summary
+        except Exception as e:
+            print(f"[Angel] Web search failed: {e}")
+            return ""
+
+    def _needs_search(self, message: str) -> bool:
+        """Detect if message needs a live web search."""
+        low = message.lower()
+        return any(t in low for t in SEARCH_TRIGGERS)
+
     # ── Send message ──────────────────────────────────────
     def send_message(self, message: str):
         threading.Thread(target=self._send_thread, args=(message,), daemon=True).start()
@@ -176,8 +209,18 @@ class AngelEngine:
         try:
             from google.genai import types
             self._emit("status", {"state": "THINKING"})
-            self._history.append(types.Content(role="user", parts=[types.Part(text=message)]))
-            self._memory.save("user", message)   # ← save to memory
+
+            # ── Web search injection ──────────────────────
+            prompt = message
+            if self._needs_search(message):
+                self._emit("status", {"state": "SEARCHING"})
+                web_ctx = self._web_search(message)
+                if web_ctx:
+                    prompt = f"{web_ctx}\n\nUsing the above web results, answer this: {message}"
+
+            self._memory.save("user", message)   # ← save original message to memory
+            self._history.append(types.Content(role="user", parts=[types.Part(text=prompt)]))
+            self._emit("status", {"state": "THINKING"})
             response = self._client.models.generate_content(
                 model="gemini-3.5-flash-lite",
                 contents=self._history,
