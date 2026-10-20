@@ -99,12 +99,6 @@ function handleWake() {
   if (isWaiting || micActive) return;
   setState('WAKING');
   setTranscript('Wake word detected — listening...');
-  const orb = document.getElementById('orb');
-  if (orb) {
-    orb.style.transition = 'transform 0.3s ease';
-    orb.style.transform = 'scale(1.015)';
-    setTimeout(() => { orb.style.transform = ''; }, 500);
-  }
   setTimeout(() => {
     if (!micActive) {
       micActive = true;
@@ -154,14 +148,12 @@ function setState(state) {
   const dot   = document.getElementById('stateDot');
   const label = document.getElementById('stateLabel');
   const orb   = document.getElementById('orb');
+  const tag   = document.getElementById('avatarStateTag');
   label.textContent = state;
-  // orb is now the model-frame div — keep its base class, add state class
-  if (orb) orb.className = 'model-frame ' + state.toLowerCase();
-  // Update mic stat readout
-  const micStat = document.getElementById('micStat');
-  if (micStat) {
-    micStat.textContent = micActive ? 'ACTIVE' : (state === 'SPEAKING' ? 'MUTED' : 'STANDBY');
-  }
+  // orb is avatar-container — set state class for CSS animations
+  if (orb) orb.className = 'avatar-container ' + state.toLowerCase();
+  // Update the state tag on the avatar
+  if (tag) tag.textContent = state;
   const color = STATE_COLORS[state] || '#00d4ff';
   dot.style.background = color;
   dot.style.boxShadow  = `0 0 8px ${color}`;

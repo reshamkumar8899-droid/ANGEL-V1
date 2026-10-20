@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@100;300;400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css?v=3"/>
+  <link rel="stylesheet" href="style.css?v=5"/>
 </head>
 <body>
 
@@ -58,34 +58,31 @@
     <!-- ── Main two-column stage ─────────────── -->
     <main class="stage" role="main">
 
-      <!-- LEFT — 3-D model panel -->
-      <div class="model-panel">
-
-        <div class="model-topbar">
-          <span class="model-live-dot" aria-hidden="true"></span>
-          <span class="model-topbar-label">ANGEL · INTERACTIVE MODEL</span>
+      <!-- LEFT — Animated character panel -->
+      <div class="avatar-panel">
+        <div class="avatar-container" id="orb">
+          <!-- Character image with animated states -->
+          <img
+            class="avatar-img"
+            id="avatarImg"
+            src="angel_avatar.png"
+            alt="Angel"
+            draggable="false"
+          />
+          <!-- Glow behind character -->
+          <div class="avatar-glow" id="avatarGlow"></div>
+          <!-- Speech indicator -->
+          <div class="speech-indicator" id="speechIndicator">
+            <span class="speech-bar"></span>
+            <span class="speech-bar"></span>
+            <span class="speech-bar"></span>
+            <span class="speech-bar"></span>
+            <span class="speech-bar"></span>
+          </div>
+          <!-- State overlay text -->
+          <div class="avatar-state-tag" id="avatarStateTag">LISTENING</div>
         </div>
-
-        <!-- Sketchfab embed — id="orb" lets app.js apply state classes -->
-        <div class="model-frame" id="orb">
-          <iframe
-            class="sketchfab-embed"
-            title="Angel — Kaoruko Waguri"
-            src="https://sketchfab.com/models/a8b4d140c11446f78e947bf45290ae2d/embed?autospin=0.2&autostart=1&preload=1&ui_theme=dark&ui_infos=0&ui_watermark=0&ui_watermark_link=0&ui_ar=0&ui_help=0&ui_settings=0&ui_inspector=0&ui_annotations=0&ui_stop=0&dnt=1&camera=0"
-            frameborder="0"
-            allow="autoplay; fullscreen; xr-spatial-tracking"
-            allowfullscreen
-          ></iframe>
-        </div>
-
-        <div class="model-statusbar">
-          <span class="mstat"><span class="mstat-k">SYS</span><span class="mstat-v">ONLINE</span></span>
-          <span class="mstat"><span class="mstat-k">LINK</span><span class="mstat-v">SECURE</span></span>
-          <span class="mstat"><span class="mstat-k">CORE</span><span class="mstat-v">ACTIVE</span></span>
-          <span class="mstat"><span class="mstat-k">MIC</span><span class="mstat-v" id="micStat">STANDBY</span></span>
-        </div>
-
-      </div><!-- /model-panel -->
+      </div>
 
       <!-- RIGHT — response + chat -->
       <div class="right-panel">
@@ -146,6 +143,6 @@
 
   </div><!-- /app -->
 
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
