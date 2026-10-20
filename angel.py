@@ -916,7 +916,8 @@ async def run_ws():
 
 # ── Launch browser in app mode ────────────────────────────
 def open_browser():
-    url = f"http://127.0.0.1:{HTTP_PORT}"
+    # Add a timestamp query param so Chrome never serves a cached page.
+    url = f"http://127.0.0.1:{HTTP_PORT}/?_={int(time.time())}"
     chrome_paths = [
         r"C:\Program Files\Google\Chrome\Application\chrome.exe",
         r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
