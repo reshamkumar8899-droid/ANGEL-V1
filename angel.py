@@ -929,6 +929,9 @@ def open_browser():
                 f"--app={url}",
                 "--window-size=1100,720",
                 "--disable-extensions",
+                "--disable-application-cache",
+                "--disk-cache-size=1",
+                "--aggressive-cache-discard",
             ])
             print(f"[Angel] Opened in Chrome app mode: {url}")
             return
