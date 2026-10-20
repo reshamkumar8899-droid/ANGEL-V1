@@ -506,11 +506,15 @@ class AngelEngine:
                 print(f"[Angel] Wake listener heard: '{text}'")
                 if has_phrase(text, WAKE_WORDS):
                     print("[Angel] Wake word detected!")
+                    # Speak first — this blocks ~1-2s and acts as an audio
+                    # cue so Daddy knows exactly when to say his command.
+                    # It also prevents Angel hearing her own "Hey Angel" echo.
+                    self._speak("Yes, Daddy?")
+                    # Now signal the frontend to activate the mic.
                     self._emit("wake", {"text": text})
-                    # Wait long enough for the frontend to send mic_start and
-                    # for _mic_active to flip True — otherwise the wake loop
-                    # grabs the mic again and swallows the user's command.
-                    time.sleep(4.0)
+                    # Extra buffer after frontend 600ms delay so mic_thread
+                    # has time to start before wake loop grabs mic again.
+                    time.sleep(3.0)
             except (sr.WaitTimeoutError, sr.UnknownValueError):
                 failures = 0
             except Exception as e:
