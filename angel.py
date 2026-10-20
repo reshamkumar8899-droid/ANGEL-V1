@@ -507,7 +507,10 @@ class AngelEngine:
                 if has_phrase(text, WAKE_WORDS):
                     print("[Angel] Wake word detected!")
                     self._emit("wake", {"text": text})
-                    time.sleep(0.6)
+                    # Wait long enough for the frontend to send mic_start and
+                    # for _mic_active to flip True — otherwise the wake loop
+                    # grabs the mic again and swallows the user's command.
+                    time.sleep(4.0)
             except (sr.WaitTimeoutError, sr.UnknownValueError):
                 failures = 0
             except Exception as e:
