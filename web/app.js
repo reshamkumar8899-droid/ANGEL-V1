@@ -16,6 +16,8 @@ function connect() {
 
   socket.onopen = () => {
     console.log('[Angel] Connected');
+    isWaiting = false;      // a dropped connection must not leave the input locked
+    resetMic();
     setState('LISTENING');
     hideSetup();
   };
@@ -30,6 +32,8 @@ function connect() {
   };
 
   socket.onclose = () => {
+    isWaiting = false;
+    resetMic();
     setState('OFFLINE');
     setTimeout(connect, 2500);   // auto-reconnect
   };
@@ -57,12 +61,20 @@ function handleEvent(msg) {
       if (msg.role === 'assistant') setResponseText(formatText(msg.content));
       break;
     case 'voice_input':
+      resetMic();           // mic session is over — without this the wake word only worked once
       document.getElementById('cmdInput').value = msg.text;
       setTranscript(msg.text);
       sendMessage();
       break;
     case 'transcript':
       setTranscript(msg.content || '');
+      break;
+    case 'mic_stopped':
+      resetMic();
+      clearTranscript();
+      break;
+    case 'config':
+      if (msg.has_key) hideSetup(); else showSetup();
       break;
     case 'wake':
       handleWake();
@@ -73,6 +85,13 @@ function handleEvent(msg) {
     case 'pong':
       break;
   }
+}
+
+// Reset the mic button/state (backend finished listening, or the connection dropped)
+function resetMic() {
+  micActive = false;
+  const btn = document.getElementById('micBtn');
+  if (btn) btn.classList.remove('active');
 }
 
 // ── Wake word activation ───────────────────────────────
@@ -176,8 +195,8 @@ function hideSetup() {
   document.getElementById('setupModal').classList.remove('visible');
 }
 async function saveApiKey() {
-  // In WebSocket mode, the key is already in .env — just reload
-  alert('Edit the .env file in your project folder with your new key, then restart Angel.');
+  // The key lives in .env (never in the browser) — keeps it out of the page and out of reach of scripts.
+  alert('Open the .env file in your Angel folder, set GEMINI_API_KEY=your_key, then restart Angel.');
 }
 
 // ── Chat log helpers ──────────────────────────────────────
