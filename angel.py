@@ -503,7 +503,6 @@ class AngelEngine:
                         audio = self._recognizer.listen(src, timeout=2, phrase_time_limit=3)
                 text = self._recognizer.recognize_google(audio).lower()
                 failures = 0
-                print(f"[Angel] Wake listener heard: '{text}'")
                 if has_phrase(text, WAKE_WORDS):
                     print("[Angel] Wake word detected!")
                     # Speak first — this blocks ~1-2s and acts as an audio
