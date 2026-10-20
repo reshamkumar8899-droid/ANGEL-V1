@@ -100,8 +100,11 @@ function handleWake() {
   setState('WAKING');
   setTranscript('Wake word detected — listening...');
   const orb = document.getElementById('orb');
-  orb.style.transform = 'scale(1.4)';
-  setTimeout(() => { orb.style.transform = ''; }, 500);
+  if (orb) {
+    orb.style.transition = 'transform 0.3s ease';
+    orb.style.transform = 'scale(1.015)';
+    setTimeout(() => { orb.style.transform = ''; }, 500);
+  }
   setTimeout(() => {
     if (!micActive) {
       micActive = true;
@@ -152,7 +155,13 @@ function setState(state) {
   const label = document.getElementById('stateLabel');
   const orb   = document.getElementById('orb');
   label.textContent = state;
-  orb.className = 'orb ' + state.toLowerCase();
+  // orb is now the model-frame div — keep its base class, add state class
+  if (orb) orb.className = 'model-frame ' + state.toLowerCase();
+  // Update mic stat readout
+  const micStat = document.getElementById('micStat');
+  if (micStat) {
+    micStat.textContent = micActive ? 'ACTIVE' : (state === 'SPEAKING' ? 'MUTED' : 'STANDBY');
+  }
   const color = STATE_COLORS[state] || '#00d4ff';
   dot.style.background = color;
   dot.style.boxShadow  = `0 0 8px ${color}`;

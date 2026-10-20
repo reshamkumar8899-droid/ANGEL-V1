@@ -6,31 +6,19 @@
   <title>Angel — Variant I</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@100;300;400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <!-- HUD corner brackets -->
-  <div class="hud-frame" aria-hidden="true">
-    <svg class="hud-corner hud-tl" viewBox="0 0 70 70" width="70" height="70">
-      <polyline points="0,70 0,0 70,0" fill="none" stroke="currentColor" stroke-width="2"/>
-      <line x1="0" y1="0" x2="16" y2="0" stroke="currentColor" stroke-width="2"/>
-      <line x1="0" y1="0" x2="0" y2="16" stroke="currentColor" stroke-width="2"/>
-    </svg>
-    <svg class="hud-corner hud-tr" viewBox="0 0 70 70" width="70" height="70">
-      <polyline points="70,70 70,0 0,0" fill="none" stroke="currentColor" stroke-width="2"/>
-    </svg>
-    <svg class="hud-corner hud-bl" viewBox="0 0 70 70" width="70" height="70">
-      <polyline points="0,0 0,70 70,70" fill="none" stroke="currentColor" stroke-width="2"/>
-    </svg>
-    <svg class="hud-corner hud-br" viewBox="0 0 70 70" width="70" height="70">
-      <polyline points="70,0 70,70 0,70" fill="none" stroke="currentColor" stroke-width="2"/>
-    </svg>
-  </div>
-
   <!-- Scanline overlay -->
   <div class="scanline" aria-hidden="true"></div>
+
+  <!-- HUD corner brackets -->
+  <div class="frame-corner frame-tl" aria-hidden="true"></div>
+  <div class="frame-corner frame-tr" aria-hidden="true"></div>
+  <div class="frame-corner frame-bl" aria-hidden="true"></div>
+  <div class="frame-corner frame-br" aria-hidden="true"></div>
 
   <!-- Setup modal (shown when no API key) -->
   <div class="setup-modal" id="setupModal">
@@ -47,120 +35,114 @@
   <!-- App -->
   <div class="app" id="app">
 
-    <!-- Header -->
+    <!-- ── Header ─────────────────────────────── -->
     <header class="header" role="banner">
       <div class="header-left">
         <div class="logo-mark" aria-label="Angel logo">A</div>
-        <span class="logo-text">Angel <span class="mark">— Variant I</span></span>
+        <div class="logo-text-group">
+          <span class="logo-name">ANGEL</span>
+          <span class="logo-sub">VARIANT I &nbsp;·&nbsp; ONLINE</span>
+        </div>
       </div>
+
       <div class="header-center">
         <span class="state-dot" id="stateDot" aria-hidden="true"></span>
         <span class="state-label" id="stateLabel" aria-live="polite">CONNECTING</span>
       </div>
+
       <div class="header-right">
-        <span class="user-label">DADDY</span>
+        <span class="user-badge">DADDY</span>
       </div>
     </header>
 
-    <!-- Main stage -->
+    <!-- ── Main two-column stage ─────────────── -->
     <main class="stage" role="main">
 
-      <!-- Orb + geo -->
-      <div class="orb-container" aria-hidden="true">
-        <svg class="geo-lines" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-          <!-- Outer rings -->
-          <circle cx="250" cy="250" r="235" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.15"/>
-          <circle cx="250" cy="250" r="200" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.2"/>
-          <circle cx="250" cy="250" r="155" fill="none" stroke="currentColor" stroke-width="0.5" opacity="0.15"/>
-          <!-- Rotating dashed rings -->
-          <circle cx="250" cy="250" r="220" fill="none" stroke="currentColor" stroke-width="1"
-            stroke-dasharray="6 18" opacity="0.22" class="ring-cw"/>
-          <circle cx="250" cy="250" r="175" fill="none" stroke="currentColor" stroke-width="0.8"
-            stroke-dasharray="3 22" opacity="0.18" class="ring-ccw"/>
-          <!-- Cardinal radial lines -->
-          <line x1="250" y1="15" x2="250" y2="130" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
-          <line x1="250" y1="370" x2="250" y2="485" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
-          <line x1="15" y1="250" x2="130" y2="250" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
-          <line x1="370" y1="250" x2="485" y2="250" stroke="currentColor" stroke-width="0.8" opacity="0.35"/>
-          <!-- Diagonal lines -->
-          <line x1="90" y1="90" x2="168" y2="168" stroke="currentColor" stroke-width="0.7" opacity="0.25"/>
-          <line x1="410" y1="90" x2="332" y2="168" stroke="currentColor" stroke-width="0.7" opacity="0.25"/>
-          <line x1="90" y1="410" x2="168" y2="332" stroke="currentColor" stroke-width="0.7" opacity="0.25"/>
-          <line x1="410" y1="410" x2="332" y2="332" stroke="currentColor" stroke-width="0.7" opacity="0.25"/>
-          <!-- Node dots -->
-          <circle cx="250" cy="20"  r="3" fill="currentColor" opacity="0.5"/>
-          <circle cx="480" cy="250" r="3" fill="currentColor" opacity="0.5"/>
-          <circle cx="250" cy="480" r="3" fill="currentColor" opacity="0.5"/>
-          <circle cx="20"  cy="250" r="3" fill="currentColor" opacity="0.5"/>
-          <circle cx="98"  cy="98"  r="2" fill="currentColor" opacity="0.35"/>
-          <circle cx="402" cy="98"  r="2" fill="currentColor" opacity="0.35"/>
-          <circle cx="98"  cy="402" r="2" fill="currentColor" opacity="0.35"/>
-          <circle cx="402" cy="402" r="2" fill="currentColor" opacity="0.35"/>
-          <!-- Tick marks at top -->
-          <line x1="250" y1="20" x2="242" y2="38" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
-          <line x1="250" y1="20" x2="258" y2="38" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
-          <!-- Data labels (decorative) -->
-          <text x="255" y="48" font-size="8" fill="currentColor" opacity="0.35" font-family="monospace">SYS.LINK</text>
-          <text x="388" y="258" font-size="8" fill="currentColor" opacity="0.35" font-family="monospace">LIVE</text>
-          <text x="18" y="246" font-size="8" fill="currentColor" opacity="0.35" font-family="monospace" text-anchor="end">NET</text>
-          <text x="255" y="476" font-size="8" fill="currentColor" opacity="0.35" font-family="monospace">CORE</text>
-        </svg>
+      <!-- LEFT — 3-D model panel -->
+      <div class="model-panel">
 
-        <!-- The glowing orb -->
-        <div class="orb" id="orb">
-          <div class="orb-ring orb-ring-outer"></div>
-          <div class="orb-ring orb-ring-mid"></div>
-          <div class="orb-glow"></div>
-          <div class="orb-inner">
-            <div class="orb-core">A</div>
-          </div>
+        <div class="model-topbar">
+          <span class="model-live-dot" aria-hidden="true"></span>
+          <span class="model-topbar-label">ANGEL · INTERACTIVE MODEL</span>
         </div>
-      </div>
 
-      <!-- Status text below orb -->
-      <div class="center-info">
+        <!-- Sketchfab embed — id="orb" lets app.js apply state classes -->
+        <div class="model-frame" id="orb">
+          <iframe
+            class="sketchfab-embed"
+            title="Angel — Kaoruko Waguri"
+            src="https://sketchfab.com/models/a8b4d140c11446f78e947bf45290ae2d/embed?autospin=0.2&autostart=1&preload=1&ui_theme=dark&ui_infos=0&ui_watermark=0&ui_watermark_link=0&ui_ar=0&ui_help=0&ui_settings=0&ui_inspector=0&ui_annotations=0&ui_stop=0&dnt=1&camera=0"
+            frameborder="0"
+            allow="autoplay; fullscreen; xr-spatial-tracking"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div class="model-statusbar">
+          <span class="mstat"><span class="mstat-k">SYS</span><span class="mstat-v">ONLINE</span></span>
+          <span class="mstat"><span class="mstat-k">LINK</span><span class="mstat-v">SECURE</span></span>
+          <span class="mstat"><span class="mstat-k">CORE</span><span class="mstat-v">ACTIVE</span></span>
+          <span class="mstat"><span class="mstat-k">MIC</span><span class="mstat-v" id="micStat">STANDBY</span></span>
+        </div>
+
+      </div><!-- /model-panel -->
+
+      <!-- RIGHT — response + chat -->
+      <div class="right-panel">
+
+        <!-- Response display -->
+        <div class="response-panel">
+          <div class="panel-label">ANGEL RESPONSE</div>
+          <p class="response-text" id="responseText">Hello, <strong>Daddy</strong>. Angel is online and ready.</p>
+        </div>
+
+        <!-- Voice transcript ticker -->
         <div class="transcript-row">
-          <span class="transcript-icon">◈</span>
+          <span class="transcript-icon" aria-hidden="true">◈</span>
           <p class="transcript" id="transcript" aria-live="polite"></p>
         </div>
-        <p class="response-text" id="responseText">Hello, <strong>Daddy</strong>. Angel is online and ready.</p>
-      </div>
+
+        <!-- Chat log -->
+        <div class="chat-section">
+          <div class="chat-header">
+            <span>CHANNEL</span>
+            <span class="chat-header-line"></span>
+            <span class="chat-header-dim">PRIMARY</span>
+          </div>
+
+          <div class="chat-log" id="chatLog" role="log" aria-label="Conversation log">
+            <div class="message assistant">
+              <span class="msg-label">ANGEL</span>
+              <span class="msg-text">Hello, <strong>Daddy</strong>. Angel is online and ready.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Input composer -->
+        <div class="composer" role="form" aria-label="Command input">
+          <input
+            type="text"
+            class="cmd-input"
+            id="cmdInput"
+            placeholder="Give Angel a command..."
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Command input"
+          />
+          <button class="mic-btn" id="micBtn" title="Voice input" aria-label="Toggle microphone" onclick="toggleMic()">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" y1="19" x2="12" y2="23"/>
+              <line x1="8" y1="23" x2="16" y2="23"/>
+            </svg>
+          </button>
+          <button class="send-btn" id="sendBtn" onclick="sendMessage()" aria-label="Send message">SEND</button>
+        </div>
+
+      </div><!-- /right-panel -->
 
     </main>
-
-    <!-- Bottom: chat log + composer -->
-    <div class="bottom-panel">
-      <div class="chat-header">
-        <span class="chat-header-label">ANGEL</span>
-        <span class="chat-header-line"></span>
-        <span class="chat-header-label" style="opacity:0.4">CHANNEL / PRIMARY</span>
-      </div>
-      <div class="chat-log" id="chatLog" role="log" aria-label="Conversation log">
-        <div class="message assistant">
-          <span class="msg-label">ANGEL</span>
-          <span class="msg-text">Hello, <strong>Daddy</strong>. Angel is online and ready.</span>
-        </div>
-      </div>
-      <div class="composer" role="form" aria-label="Command input">
-        <input
-          type="text"
-          class="cmd-input"
-          id="cmdInput"
-          placeholder="Give Angel a command..."
-          autocomplete="off"
-          aria-label="Command input"
-        />
-        <button class="mic-btn" id="micBtn" title="Voice input" aria-label="Toggle microphone" onclick="toggleMic()">
-          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-            <line x1="12" y1="19" x2="12" y2="23"/>
-            <line x1="8" y1="23" x2="16" y2="23"/>
-          </svg>
-        </button>
-        <button class="send-btn" id="sendBtn" onclick="sendMessage()" aria-label="Send message">SEND</button>
-      </div>
-    </div>
 
   </div><!-- /app -->
 
