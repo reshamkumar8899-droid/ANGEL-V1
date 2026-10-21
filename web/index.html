@@ -7,18 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@100;300;400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css?v=7"/>
-
-  <!-- Three.js + VRM via importmap -->
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
-      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
-      "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.3.3/lib/three-vrm.module.min.js"
-    }
-  }
-  </script>
+  <link rel="stylesheet" href="style.css?v=8"/>
 </head>
 <body>
 
@@ -69,11 +58,8 @@
 
       <!-- LEFT — 3D Avatar -->
       <div class="avatar-panel" id="avatarPanel">
-        <!-- Three.js canvas goes here -->
         <canvas id="vrm-canvas"></canvas>
-        <!-- State tag overlay -->
         <div class="avatar-state-tag" id="avatarStateTag">LOADING MODEL...</div>
-        <!-- Speech indicator -->
         <div class="speech-indicator" id="speechIndicator">
           <span class="speech-bar"></span>
           <span class="speech-bar"></span>
@@ -123,10 +109,209 @@
     </main>
   </div>
 
-  <!-- Core app logic (non-module, runs first) -->
-  <script src="app.js?v=7"></script>
+  <!-- Core app logic -->
+  <script src="app.js?v=8"></script>
 
-  <!-- 3D Avatar engine (ES module) -->
-  <script type="module" src="avatar3d.js?v=7"></script>
+  <!-- Three.js + VRM via importmap -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
+      "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.3.3/lib/three-vrm.module.min.js"
+    }
+  }
+  </script>
+
+  <!-- 3D Avatar engine -->
+  <script type="module">
+    const tag = document.getElementById('avatarStateTag');
+
+    try {
+      const THREE = await import('three');
+      const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js');
+      const { VRMLoaderPlugin, VRMUtils } = await import('@pixiv/three-vrm');
+
+      console.log('[Angel3D] Libraries loaded ✓');
+      tag.textContent = 'LIBS LOADED...';
+
+      // ── Setup ──
+      const canvas = document.getElementById('vrm-canvas');
+      const panel  = document.getElementById('avatarPanel');
+      const speechEl = document.getElementById('speechIndicator');
+
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+      const scene  = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(22, 1, 0.1, 100);
+      camera.position.set(0, 1.35, 3.2);
+      camera.lookAt(0, 1.15, 0);
+
+      // Lighting
+      const mainLight = new THREE.DirectionalLight(0xffffff, 2.0);
+      mainLight.position.set(0.5, 2, 3);
+      scene.add(mainLight);
+
+      const rimLight = new THREE.DirectionalLight(0x00d4ff, 0.8);
+      rimLight.position.set(-2, 1.5, -1);
+      scene.add(rimLight);
+
+      scene.add(new THREE.DirectionalLight(0x00d4ff, 0.3).position.set(0, -1, 2));
+      scene.add(new THREE.AmbientLight(0x334466, 0.7));
+
+      // State
+      let currentVrm   = null;
+      let clock         = new THREE.Clock();
+      let mouseX = 0, mouseY = 0;
+      let currentState  = 'LISTENING';
+      let breathPhase   = 0, speakPhase = 0;
+      let blinkTimer    = 3, blinkDur = 0, isBlinking = false;
+
+      // Mouse tracking
+      panel.addEventListener('mousemove', (e) => {
+        const r = panel.getBoundingClientRect();
+        mouseX = ((e.clientX - r.left) / r.width  - 0.5) * 2;
+        mouseY = ((e.clientY - r.top)  / r.height - 0.5) * 2;
+      });
+
+      // Drag rotation
+      let isDragging = false, dragStartX = 0, modelRotY = 0, dragBase = 0;
+      panel.addEventListener('mousedown', (e) => { isDragging = true; dragStartX = e.clientX; dragBase = modelRotY; });
+      window.addEventListener('mouseup', () => isDragging = false);
+      window.addEventListener('mousemove', (e) => { if (isDragging) modelRotY = dragBase + (e.clientX - dragStartX) * 0.005; });
+
+      // Resize
+      function resize() {
+        const w = panel.clientWidth, h = panel.clientHeight;
+        renderer.setSize(w, h);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      // ── Load VRM ──
+      tag.textContent = 'LOADING MODEL...';
+      const loader = new THREE.GLTFLoader ? undefined : new GLTFLoader();
+      const gltfLoader = new GLTFLoader();
+      gltfLoader.register((parser) => new VRMLoaderPlugin(parser));
+
+      gltfLoader.load(
+        'angel.vrm',
+        (gltf) => {
+          const vrm = gltf.userData.vrm;
+          if (!vrm) { tag.textContent = 'NO VRM DATA'; return; }
+
+          VRMUtils.removeUnnecessaryJoints(gltf.scene);
+          VRMUtils.removeUnnecessaryVertices(gltf.scene);
+          VRMUtils.rotateVRM0(vrm);
+
+          scene.add(vrm.scene);
+          currentVrm = vrm;
+          tag.textContent = 'LISTENING';
+          console.log('[Angel3D] VRM loaded ✓');
+        },
+        (p) => { if (p.total > 0) tag.textContent = `LOADING... ${Math.round(p.loaded/p.total*100)}%`; },
+        (err) => { console.error('[Angel3D]', err); tag.textContent = 'LOAD ERROR'; }
+      );
+
+      // ── Expression helpers ──
+      function setExpr(name, val) {
+        if (!currentVrm?.expressionManager) return;
+        try { currentVrm.expressionManager.setValue(name, val); } catch(e) {}
+      }
+      function resetExpr() {
+        ['happy','angry','sad','surprised','neutral','aa','ih','ou','ee','oh','blink'].forEach(n => setExpr(n, 0));
+      }
+
+      // ── State glow colors ──
+      const GLOW = {
+        LISTENING: [0,0.82,1], THINKING: [0.96,0.62,0.04], SPEAKING: [0.06,0.73,0.5],
+        SEARCHING: [0.66,0.33,0.97], WAKING: [0,1,0.8], REMINDER: [0,1,0.8],
+      };
+
+      // ── Animation loop ──
+      function animate() {
+        requestAnimationFrame(animate);
+        const dt = clock.getDelta();
+        if (!currentVrm) { renderer.render(scene, camera); return; }
+
+        breathPhase += dt;
+        speakPhase  += dt;
+
+        // Breathing
+        currentVrm.scene.position.y = Math.sin(breathPhase * 1.2) * 0.003;
+
+        // Rotation (drag or return to center)
+        if (!isDragging) modelRotY *= 0.97;
+        currentVrm.scene.rotation.y = modelRotY;
+
+        // Head follows mouse
+        if (currentVrm.lookAt) {
+          currentVrm.lookAt.target.set(mouseX * 0.6, -mouseY * 0.3 + 1.2, 2);
+        }
+
+        // Blink
+        if (isBlinking) {
+          blinkDur += dt;
+          const bv = blinkDur < 0.06 ? blinkDur/0.06 : blinkDur < 0.12 ? 1 : Math.max(0, 1-(blinkDur-0.12)/0.08);
+          setExpr('blink', bv);
+          if (blinkDur > 0.2) { setExpr('blink', 0); isBlinking = false; blinkTimer = 2+Math.random()*4; }
+        } else { blinkTimer -= dt; if (blinkTimer <= 0) { isBlinking = true; blinkDur = 0; } }
+
+        // State animations
+        resetExpr();
+        if (isBlinking) {
+          const bv = blinkDur < 0.06 ? blinkDur/0.06 : blinkDur < 0.12 ? 1 : Math.max(0, 1-(blinkDur-0.12)/0.08);
+          setExpr('blink', bv);
+        }
+
+        switch (currentState) {
+          case 'LISTENING': setExpr('neutral', 0.5); break;
+          case 'THINKING':
+            setExpr('neutral', 0.3);
+            if (currentVrm.lookAt) currentVrm.lookAt.target.x += Math.sin(breathPhase*0.8)*0.08;
+            break;
+          case 'SPEAKING':
+            setExpr('aa', (Math.sin(speakPhase*8)*0.5+0.5)*0.6);
+            setExpr('oh', (Math.sin(speakPhase*12)*0.5+0.5)*0.3);
+            setExpr('happy', 0.2);
+            currentVrm.scene.position.y += Math.sin(speakPhase*3)*0.004;
+            break;
+          case 'SEARCHING': setExpr('neutral', 0.3); break;
+          case 'WAKING': setExpr('surprised', 0.5); setExpr('happy', 0.3); break;
+          case 'REMINDER':
+            setExpr('happy', 0.4);
+            setExpr('aa', (Math.sin(speakPhase*8)*0.5+0.5)*0.5);
+            break;
+        }
+
+        currentVrm.update(dt);
+
+        // Rim light color
+        const g = GLOW[currentState] || [0,0.82,1];
+        rimLight.color.setRGB(g[0], g[1], g[2]);
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // Public API for app.js
+      window.setAvatarState = function(state) {
+        currentState = state;
+        if (tag) tag.textContent = state;
+        if (speechEl) speechEl.classList.toggle('active', state === 'SPEAKING' || state === 'REMINDER');
+        if (state === 'SPEAKING' || state === 'REMINDER') speakPhase = 0;
+      };
+
+      console.log('[Angel3D] Avatar engine running ✓');
+
+    } catch (err) {
+      console.error('[Angel3D] Fatal:', err);
+      tag.textContent = 'ERROR: ' + err.message;
+    }
+  </script>
 </body>
 </html>
