@@ -194,7 +194,6 @@
 
       // ── Load VRM ──
       tag.textContent = 'LOADING MODEL...';
-      const loader = new THREE.GLTFLoader ? undefined : new GLTFLoader();
       const gltfLoader = new GLTFLoader();
       gltfLoader.register((parser) => new VRMLoaderPlugin(parser));
 
