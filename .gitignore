@@ -4,6 +4,9 @@
 # Voice sample (large binary, personal)
 angel_voice.wav
 
+# VRM 3D model (large binary, downloaded at setup)
+web/angel.vrm
+
 # Python cache
 __pycache__/
 *.py[cod]

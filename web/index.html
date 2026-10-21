@@ -7,7 +7,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@100;300;400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css?v=5"/>
+  <link rel="stylesheet" href="style.css?v=7"/>
+
+  <!-- Three.js + VRM via importmap -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/",
+      "@pixiv/three-vrm": "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.3.3/lib/three-vrm.module.min.js"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -20,7 +31,7 @@
   <div class="frame-corner frame-bl" aria-hidden="true"></div>
   <div class="frame-corner frame-br" aria-hidden="true"></div>
 
-  <!-- Setup modal (shown when no API key) -->
+  <!-- Setup modal -->
   <div class="setup-modal" id="setupModal">
     <div class="setup-box">
       <div class="setup-logo">A</div>
@@ -35,7 +46,7 @@
   <!-- App -->
   <div class="app" id="app">
 
-    <!-- ── Header ─────────────────────────────── -->
+    <!-- Header -->
     <header class="header" role="banner">
       <div class="header-left">
         <div class="logo-mark" aria-label="Angel logo">A</div>
@@ -44,69 +55,50 @@
           <span class="logo-sub">VARIANT I &nbsp;·&nbsp; ONLINE</span>
         </div>
       </div>
-
       <div class="header-center">
         <span class="state-dot" id="stateDot" aria-hidden="true"></span>
         <span class="state-label" id="stateLabel" aria-live="polite">CONNECTING</span>
       </div>
-
       <div class="header-right">
         <span class="user-badge">DADDY</span>
       </div>
     </header>
 
-    <!-- ── Main two-column stage ─────────────── -->
+    <!-- Main two-column stage -->
     <main class="stage" role="main">
 
-      <!-- LEFT — Animated character panel -->
-      <div class="avatar-panel">
-        <div class="avatar-container" id="orb">
-          <!-- Character image with animated states -->
-          <img
-            class="avatar-img"
-            id="avatarImg"
-            src="angel_avatar.png"
-            alt="Angel"
-            draggable="false"
-          />
-          <!-- Glow behind character -->
-          <div class="avatar-glow" id="avatarGlow"></div>
-          <!-- Speech indicator -->
-          <div class="speech-indicator" id="speechIndicator">
-            <span class="speech-bar"></span>
-            <span class="speech-bar"></span>
-            <span class="speech-bar"></span>
-            <span class="speech-bar"></span>
-            <span class="speech-bar"></span>
-          </div>
-          <!-- State overlay text -->
-          <div class="avatar-state-tag" id="avatarStateTag">LISTENING</div>
+      <!-- LEFT — 3D Avatar -->
+      <div class="avatar-panel" id="avatarPanel">
+        <!-- Three.js canvas goes here -->
+        <canvas id="vrm-canvas"></canvas>
+        <!-- State tag overlay -->
+        <div class="avatar-state-tag" id="avatarStateTag">LOADING MODEL...</div>
+        <!-- Speech indicator -->
+        <div class="speech-indicator" id="speechIndicator">
+          <span class="speech-bar"></span>
+          <span class="speech-bar"></span>
+          <span class="speech-bar"></span>
+          <span class="speech-bar"></span>
+          <span class="speech-bar"></span>
         </div>
       </div>
 
       <!-- RIGHT — response + chat -->
       <div class="right-panel">
-
-        <!-- Response display -->
         <div class="response-panel">
           <div class="panel-label">ANGEL RESPONSE</div>
           <p class="response-text" id="responseText">Hello, <strong>Daddy</strong>. Angel is online and ready.</p>
         </div>
-
-        <!-- Voice transcript ticker -->
         <div class="transcript-row">
           <span class="transcript-icon" aria-hidden="true">◈</span>
           <p class="transcript" id="transcript" aria-live="polite"></p>
         </div>
-
-        <!-- Chat log -->
         <div class="chat-section">
           <div class="chat-header">
             <span>CHANNEL</span>
             <span class="chat-header-line"></span>
             <span class="chat-header-dim">PRIMARY</span>
           </div>
-
           <div class="chat-log" id="chatLog" role="log" aria-label="Conversation log">
             <div class="message assistant">
               <span class="msg-label">ANGEL</span>
@@ -114,18 +106,8 @@
             </div>
           </div>
         </div>
-
-        <!-- Input composer -->
         <div class="composer" role="form" aria-label="Command input">
-          <input
-            type="text"
-            class="cmd-input"
-            id="cmdInput"
-            placeholder="Give Angel a command..."
-            autocomplete="off"
-            spellcheck="false"
-            aria-label="Command input"
-          />
+          <input type="text" class="cmd-input" id="cmdInput" placeholder="Give Angel a command..." autocomplete="off" spellcheck="false" aria-label="Command input"/>
           <button class="mic-btn" id="micBtn" title="Voice input" aria-label="Toggle microphone" onclick="toggleMic()">
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -136,13 +118,15 @@
           </button>
           <button class="send-btn" id="sendBtn" onclick="sendMessage()" aria-label="Send message">SEND</button>
         </div>
-
-      </div><!-- /right-panel -->
+      </div>
 
     </main>
+  </div>
 
-  </div><!-- /app -->
+  <!-- Core app logic (non-module, runs first) -->
+  <script src="app.js?v=7"></script>
 
-  <script src="app.js?v=5"></script>
+  <!-- 3D Avatar engine (ES module) -->
+  <script type="module" src="avatar3d.js?v=7"></script>
 </body>
 </html>

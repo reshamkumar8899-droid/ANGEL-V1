@@ -107,7 +107,7 @@ function handleWake() {
       send({ type: 'mic_start' });
       setState('LISTENING');
     }
-  }, 600);
+  }, 800);
 }
 
 
@@ -147,16 +147,12 @@ const STATE_COLORS = {
 function setState(state) {
   const dot   = document.getElementById('stateDot');
   const label = document.getElementById('stateLabel');
-  const orb   = document.getElementById('orb');
-  const tag   = document.getElementById('avatarStateTag');
   label.textContent = state;
-  // orb is avatar-container — set state class for CSS animations
-  if (orb) orb.className = 'avatar-container ' + state.toLowerCase();
-  // Update the state tag on the avatar
-  if (tag) tag.textContent = state;
   const color = STATE_COLORS[state] || '#00d4ff';
   dot.style.background = color;
   dot.style.boxShadow  = `0 0 8px ${color}`;
+  // Tell 3D avatar engine the new state
+  if (window.setAvatarState) window.setAvatarState(state);
 }
 
 // ── Send message ──────────────────────────────────────────
