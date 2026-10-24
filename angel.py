@@ -356,6 +356,7 @@ class AngelEngine:
         self._history     = []
         self._xtts        = None
         self._tts_ok      = False
+        self._edge_tts_ok = False
         self._recognizer  = None
         self._mic_active  = False
         self._wake_active = True
@@ -442,6 +443,12 @@ class AngelEngine:
         except Exception as e:
             print(f"[Angel] Gemini error: {e}")
 
+    # ── Edge TTS (natural sounding female voice) ────────
+    # Voice options:  en-US-AvaMultilingualNeural  (warm, natural)
+    #                 en-US-JennyNeural            (clear, friendly)
+    #                 en-US-AriaNeural             (expressive, slightly playful)
+    EDGE_VOICE = "en-US-AvaMultilingualNeural"
+
     def _make_pyttsx3(self):
         import pyttsx3
         engine = pyttsx3.init()
@@ -453,6 +460,7 @@ class AngelEngine:
         return engine
 
     def _init_tts(self):
+        # Priority 1: XTTS (cloned voice, needs GPU)
         if USE_XTTS:
             try:
                 from TTS.api import TTS
@@ -463,9 +471,21 @@ class AngelEngine:
                 print("[Angel] XTTS v2 ready ✓")
                 return
             except Exception as e:
-                print(f"[Angel] XTTS failed, using pyttsx3: {e}")
+                print(f"[Angel] XTTS failed: {e}")
+
+        # Priority 2: Edge TTS (natural neural voice, needs internet)
         try:
-            self._make_pyttsx3()          # just proves it works; a fresh engine is made per phrase
+            import edge_tts  # noqa: F401
+            self._edge_tts_ok = True
+            print(f"[Angel] Edge TTS ready (voice: {self.EDGE_VOICE})")
+            return
+        except ImportError:
+            self._edge_tts_ok = False
+            print("[Angel] edge-tts not installed, falling back to pyttsx3")
+
+        # Priority 3: pyttsx3 (offline, robotic)
+        try:
+            self._make_pyttsx3()
             self._tts_ok = True
             print("[Angel] pyttsx3 TTS ready ✓")
         except Exception as e:
@@ -756,12 +776,60 @@ class AngelEngine:
             try:
                 if self._xtts:
                     self._speak_xtts(text)
+                elif self._edge_tts_ok:
+                    self._speak_edge(text)
                 elif self._tts_ok:
                     self._speak_pyttsx3(text)
             finally:
                 self._last_spoke = time.time()
                 self._speaking.clear()
         self._emit("status", {"state": "LISTENING"})
+
+    def _speak_edge(self, text: str):
+        """Use Microsoft Edge TTS — natural neural female voice."""
+        tmp = None
+        try:
+            import edge_tts
+            fd, tmp = tempfile.mkstemp(suffix=".mp3")
+            os.close(fd)
+            # edge_tts.Communicate is async, run in a fresh event loop
+            async def _gen():
+                comm = edge_tts.Communicate(text, self.EDGE_VOICE, rate="+5%", pitch="+2Hz")
+                await comm.save(tmp)
+            asyncio.run(_gen())
+            # Play with pygame (no window, no console flash)
+            try:
+                import pygame
+                if not pygame.mixer.get_init():
+                    pygame.mixer.init()
+                pygame.mixer.music.load(tmp)
+                pygame.mixer.music.play()
+                while pygame.mixer.music.get_busy():
+                    time.sleep(0.05)
+            except ImportError:
+                # Fallback: powershell mediaplayer
+                subprocess.run(
+                    ["powershell", "-NoProfile", "-c",
+                     f"Add-Type -AssemblyName PresentationCore; "
+                     f"$p = New-Object System.Windows.Media.MediaPlayer; "
+                     f"$p.Open([uri]'{tmp.replace(chr(39), chr(39)+chr(39))}'); "
+                     f"$p.Play(); Start-Sleep -Milliseconds 500; "
+                     f"while ($p.Position -lt $p.NaturalDuration.TimeSpan) {{ Start-Sleep -Milliseconds 100 }}; "
+                     f"$p.Close()"],
+                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                )
+        except Exception as e:
+            print(f"[Angel] Edge TTS error: {e}")
+            # Fall back to pyttsx3 if edge fails
+            if self._tts_ok:
+                self._speak_pyttsx3(text)
+        finally:
+            if tmp:
+                try:
+                    time.sleep(0.2)
+                    os.remove(tmp)
+                except OSError:
+                    pass
 
     def _speak_xtts(self, text: str):
         tmp = None
