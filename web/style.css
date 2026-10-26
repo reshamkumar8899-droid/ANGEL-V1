@@ -131,9 +131,9 @@ body::before {
   );
 }
 
-/* ── State badge (top center) ─────────────────────── */
+/* ── State badge (below header) ───────────────────── */
 .avatar-state-tag {
-  position:fixed; z-index:20; top:16px; left:50%; transform:translateX(-50%);
+  position:fixed; z-index:20; top:60px; left:50%; transform:translateX(-50%);
   font-family:var(--font-mono); font-size:9px; letter-spacing:.22em;
   color:var(--accent); background:rgba(0,212,255,0.08);
   border:1px solid rgba(0,212,255,0.22); padding:4px 18px; border-radius:20px;
