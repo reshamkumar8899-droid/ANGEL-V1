@@ -741,16 +741,43 @@ class AngelEngine:
     def _open_app(self, verb: str, raw_name: str) -> str:
         name = clean_app_name(raw_name)
         target = APP_MAP.get(name)
-        if target is None:
-            # "run a marathon" / "start over" is just conversation → let Gemini answer.
-            if verb in ("start", "run"):
-                return ""
-            return f"I don't have '{name}' on my app list, Daddy. Add it to APP_MAP in angel.py."
+
+        if target is not None:
+            # Known app / URL in our map
+            try:
+                self._launch(target)
+                return f"Opening {name} for you, Daddy~"
+            except Exception as e:
+                return f"Couldn't open {name}, Daddy: {e}"
+
+        # Unknown name — try smart fallback
+        # 1. Check if an .exe with that name exists on PATH
+        import shutil
+        exe_try = shutil.which(name.replace(" ", "") + ".exe") or shutil.which(name.replace(" ", ""))
+        if exe_try:
+            try:
+                os.startfile(exe_try)
+                return f"Found and opened {name} for you, Daddy~"
+            except Exception:
+                pass
+
+        # 2. If "start"/"run" it's probably just conversation ("start over") — let Gemini handle it
+        if verb in ("start", "run"):
+            return ""
+
+        # 3. Anything else → open as a website in the default browser
+        # Try common .com / youtube-style names first
+        website_guesses = [
+            f"https://www.{name.replace(' ', '')}.com",
+            f"https://{name.replace(' ', '')}.com",
+        ]
         try:
-            self._launch(target)
-            return f"Opening {name} for you, Daddy."
+            url = website_guesses[0]
+            os.startfile(url)
+            print(f"[Angel] Smart open: {url}")
+            return f"I didn't find {name} as an app, so I'm opening {url} in your browser, Daddy~"
         except Exception as e:
-            return f"Couldn't open {name}, Daddy: {e}"
+            return f"Couldn't find or open '{name}', Daddy. Try saying 'open youtube' or 'open netflix'."
 
     def _take_screenshot(self) -> str:
         try:
