@@ -184,6 +184,14 @@ function toggleMic() {
   }
 }
 
+// ── Chat overlay toggle ───────────────────────────────
+function toggleChat() {
+  const overlay = document.getElementById('chatOverlay');
+  const btn     = document.getElementById('chatToggleBtn');
+  const isOpen  = overlay.classList.toggle('open');
+  btn.classList.toggle('active', isOpen);
+}
+
 // ── Setup modal ───────────────────────────────────────────
 function showSetup() {
   document.getElementById('setupModal').classList.add('visible');
@@ -206,7 +214,9 @@ function addMessage(role, html) {
   log.scrollTop = log.scrollHeight;
 }
 function setResponseText(html) {
+  const rp = document.getElementById('responsePanel');
   document.getElementById('responseText').innerHTML = html;
+  if (rp) rp.classList.add('visible');
 }
 function setTranscript(text) {
   document.getElementById('transcript').textContent = text;
@@ -247,3 +257,9 @@ window.addEventListener('load', () => {
   setState('CONNECTING');
   connect();
 });
+
+// ── Expose functions to HTML onclick handlers ─────────────
+window.sendMessage  = sendMessage;
+window.toggleMic    = toggleMic;
+window.toggleChat   = toggleChat;
+window.saveApiKey   = saveApiKey;
