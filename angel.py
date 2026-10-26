@@ -90,6 +90,38 @@ APP_MAP = {
     "word":            "winword.exe",
     "excel":           "excel.exe",
     "settings":        "ms-settings:",
+    "youtube":         "https://www.youtube.com",
+    "instagram":       "https://www.instagram.com",
+    "twitter":         "https://www.twitter.com",
+    "x":               "https://www.x.com",
+    "reddit":          "https://www.reddit.com",
+    "github":          "https://www.github.com",
+    "gmail":           "https://mail.google.com",
+    "whatsapp":        "https://web.whatsapp.com",
+    "maps":            "https://maps.google.com",
+    "google maps":     "https://maps.google.com",
+    "netflix":         "https://www.netflix.com",
+    "chatgpt":         "https://chat.openai.com",
+}
+
+# ── Avatar reaction triggers ────────────────────────────────
+# Maps user phrases → (avatar_state, reply_text)
+AVATAR_REACTIONS = {
+    # Flirty / cute
+    r"blow.*kiss|kiss.*me":              ("WAKING",    "*blows you a kiss* 😘 Here you go, Daddy~"),
+    r"hug\b|give.*hug":                 ("WAKING",    "*hugs you tight* 🤗 You needed that, didn't you, Daddy?"),
+    r"wave|say hi|hello|hi\b":          ("WAKING",    "*waves cheerfully* Hi Daddy! I missed you~ 👋"),
+    r"dance|show.*moves|bust.*move":    ("SPEAKING",  "*does a little spin* 💃 How's that, Daddy?"),
+    r"cute|you.*cute|so cute":          ("WAKING",    "*blushes* S-stop it, Daddy, you're making me flustered~ 😳"),
+    r"love you|i love you":             ("WAKING",    "*smiles softly* I love you too, Daddy. Always. 💙"),
+    r"good girl|good job":              ("WAKING",    "*tail wag* Thank you Daddy~ That means a lot to me! 🌟"),
+    r"wink|wink at me":                 ("SPEAKING",  "*winks* 😉 Don't read too much into that, Daddy~"),
+    r"sing|sing.*song|song.*for me":    ("SPEAKING",  "*clears throat* La la la~ I'd love to sing for you, Daddy! 🎵"),
+    r"cheer.*up|make me happy|sad":     ("WAKING",    "*does a little cheer* You've got this Daddy! I believe in you! 🌟"),
+    r"angry|mad at you":                ("THINKING",  "Aww don't be mad at me Daddy... I'm doing my best 🥺"),
+    r"miss you|i miss you":             ("WAKING",    "*spins excitedly* I missed you too, Daddy! So so much! 💙"),
+    r"goodnight|good night|night night":("SPEAKING",  "Goodnight, Daddy~ Sweet dreams. I'll be right here when you wake up 🌙"),
+    r"good morning|morning":            ("WAKING",    "*stretches* Good morning, Daddy! Ready to conquer the day? ☀️"),
 }
 
 
@@ -134,10 +166,19 @@ def parse_pc_command(message: str):
     """
     Decide whether a message is a PC command. Returns a tuple or None:
       ("screenshot",)  ("open", verb, name)  ("volume", "up"|"down"|"mute")
-      ("spotify", cmd) ("media", action)
+      ("spotify", cmd) ("media", action)     ("youtube", query)
+      ("reaction", state, reply)
     A command must START with its verb, so ordinary chat such as
     'what is display resolution' or 'I commute to work' is never treated as one.
     """
+    raw = message.strip()
+    low_raw = raw.lower()
+
+    # ── Avatar reactions first (checked on raw message) ──
+    for pattern, (state, reply) in AVATAR_REACTIONS.items():
+        if re.search(pattern, low_raw, re.IGNORECASE):
+            return ("reaction", state, reply)
+
     cmd = normalize_command(message)
     low = cmd.lower()
     if not low:
@@ -147,6 +188,18 @@ def parse_pc_command(message: str):
         r"^(?:take|capture|grab|snap|get)\s+(?:a\s+|the\s+|my\s+)?(?:screenshot|screen shot|screen)\b", low
     ):
         return ("screenshot",)
+
+    # YouTube: "play X on youtube" / "open youtube and play X" / "youtube X"
+    yt = re.search(
+        r"(?:play|search|open|find|put on|watch)\s+(.+?)\s+(?:on\s+)?youtube"
+        r"|youtube\s+(?:play|search|find|watch)?\s*(.+)"
+        r"|open\s+youtube\s+(?:and\s+)?(?:play|search|find)?\s*(.+)",
+        low, re.IGNORECASE
+    )
+    if yt:
+        query = next((g for g in yt.groups() if g), "").strip(" .,")
+        if query:
+            return ("youtube", query)
 
     m = re.match(r"^(open|launch|start|run)\s+(.+)$", low)
     if m:
@@ -626,6 +679,10 @@ class AngelEngine:
                 return self._handle_spotify(cmd[1])
             if kind == "media":
                 return self._handle_music(cmd[1])
+            if kind == "youtube":
+                return self._handle_youtube(cmd[1])
+            if kind == "reaction":
+                return self._handle_reaction(cmd[1], cmd[2])
         except Exception as e:
             return f"That didn't work, Daddy: {e}"
         return ""
@@ -641,6 +698,31 @@ class AngelEngine:
         }
         key, reply = keys[action]
         self._press(key)
+        return reply
+
+    def _handle_youtube(self, query: str) -> str:
+        """Open YouTube search or a direct video search in the browser."""
+        if query:
+            url = "https://www.youtube.com/results?search_query=" + urllib.parse.quote(query)
+            reply = f"Opening YouTube and searching for '{query}' for you, Daddy~"
+        else:
+            url = "https://www.youtube.com"
+            reply = "Opening YouTube for you, Daddy~"
+        try:
+            os.startfile(url)
+            print(f"[Angel] YouTube: {url}")
+        except Exception as e:
+            return f"Couldn't open YouTube, Daddy: {e}"
+        return reply
+
+    def _handle_reaction(self, state: str, reply: str) -> str:
+        """Trigger an avatar state + return the reaction reply."""
+        # Flash the avatar into the reaction state for 3 seconds
+        self._emit("status", {"state": state})
+        def _reset():
+            time.sleep(3)
+            self._emit("status", {"state": "LISTENING"})
+        threading.Thread(target=_reset, daemon=True).start()
         return reply
 
     def _handle_spotify(self, cmd: str) -> str:
