@@ -357,6 +357,7 @@ class AngelEngine:
         self._xtts        = None
         self._tts_ok      = False
         self._edge_tts_ok = False
+        self._eleven_ok   = False
         self._recognizer  = None
         self._mic_active  = False
         self._wake_active = True
@@ -468,12 +469,23 @@ class AngelEngine:
                 device = "cuda" if torch.cuda.is_available() else "cpu"
                 print(f"[Angel] Loading XTTS v2 on {device} — first run downloads model...")
                 self._xtts = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(device)
-                print("[Angel] XTTS v2 ready ✓")
+                print("[Angel] XTTS v2 ready")
                 return
             except Exception as e:
                 print(f"[Angel] XTTS failed: {e}")
 
-        # Priority 2: Edge TTS (natural neural voice, needs internet)
+        # Priority 2: ElevenLabs (most realistic, needs API key + internet)
+        eleven_key = os.getenv("ELEVENLABS_API_KEY", "").strip()
+        if eleven_key:
+            try:
+                from elevenlabs.client import ElevenLabs as ElevenLabsClient  # noqa: F401
+                self._eleven_ok = True
+                print("[Angel] ElevenLabs TTS ready (voice: Rachel)")
+                return
+            except Exception as e:
+                print(f"[Angel] ElevenLabs failed: {e}")
+
+        # Priority 3: Edge TTS (natural neural voice, needs internet)
         try:
             import edge_tts  # noqa: F401
             self._edge_tts_ok = True
@@ -483,11 +495,11 @@ class AngelEngine:
             self._edge_tts_ok = False
             print("[Angel] edge-tts not installed, falling back to pyttsx3")
 
-        # Priority 3: pyttsx3 (offline, robotic)
+        # Priority 4: pyttsx3 (offline, robotic)
         try:
             self._make_pyttsx3()
             self._tts_ok = True
-            print("[Angel] pyttsx3 TTS ready ✓")
+            print("[Angel] pyttsx3 TTS ready")
         except Exception as e:
             print(f"[Angel] TTS unavailable: {e}")
 
@@ -776,6 +788,8 @@ class AngelEngine:
             try:
                 if self._xtts:
                     self._speak_xtts(text)
+                elif self._eleven_ok:
+                    self._speak_eleven(text)
                 elif self._edge_tts_ok:
                     self._speak_edge(text)
                 elif self._tts_ok:
@@ -784,6 +798,65 @@ class AngelEngine:
                 self._last_spoke = time.time()
                 self._speaking.clear()
         self._emit("status", {"state": "LISTENING"})
+
+    def _speak_eleven(self, text: str):
+        """ElevenLabs neural TTS — most realistic female voice."""
+        tmp = None
+        try:
+            from elevenlabs.client import ElevenLabs as ElevenLabsClient
+            eleven_key = os.getenv("ELEVENLABS_API_KEY", "").strip()
+            client = ElevenLabsClient(api_key=eleven_key)
+
+            # Rachel — warm, natural female voice (works on free tier)
+            # Other good free voices: "Sarah", "Laura", "Charlotte"
+            VOICE_ID = "21m00Tcm4TlvDq8ikWAM"   # Rachel
+
+            audio = client.text_to_speech.convert(
+                voice_id=VOICE_ID,
+                text=text,
+                model_id="eleven_multilingual_v2",
+                output_format="mp3_44100_128",
+            )
+
+            # Write audio bytes to temp file
+            fd, tmp = tempfile.mkstemp(suffix=".mp3")
+            with os.fdopen(fd, "wb") as f:
+                for chunk in audio:
+                    if chunk:
+                        f.write(chunk)
+
+            # Play with pygame
+            try:
+                import pygame
+                if not pygame.mixer.get_init():
+                    pygame.mixer.init()
+                pygame.mixer.music.load(tmp)
+                pygame.mixer.music.play()
+                while pygame.mixer.music.get_busy():
+                    time.sleep(0.05)
+                pygame.mixer.music.unload()   # release file lock before delete
+            except ImportError:
+                # Fallback: powershell
+                safe = tmp.replace("'", "''")
+                subprocess.run(
+                    ["powershell", "-NoProfile", "-c",
+                     f"(New-Object Media.SoundPlayer '{safe}').PlaySync()"],
+                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+                )
+        except Exception as e:
+            print(f"[Angel] ElevenLabs speak error: {e}")
+            # Graceful fallback chain
+            if self._edge_tts_ok:
+                self._speak_edge(text)
+            elif self._tts_ok:
+                self._speak_pyttsx3(text)
+        finally:
+            if tmp:
+                try:
+                    time.sleep(0.2)
+                    os.remove(tmp)
+                except OSError:
+                    pass
 
     def _speak_edge(self, text: str):
         """Use Microsoft Edge TTS — natural neural female voice."""
