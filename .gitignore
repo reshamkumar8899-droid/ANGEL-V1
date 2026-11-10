@@ -1,6 +1,11 @@
 # Environment / secrets
 .env
 
+# Node.js / Electron
+node_modules/
+overlay/node_modules/
+npm-debug.log*
+
 # Voice sample (large binary, personal)
 angel_voice.wav
 

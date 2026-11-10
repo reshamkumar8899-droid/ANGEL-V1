@@ -1,0 +1,15 @@
+{
+  "name": "angel-overlay",
+  "version": "1.0.0",
+  "description": "Angel — Transparent Desktop Overlay",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^33.0.0"
+  },
+  "allowScripts": {
+    "electron@33.4.11": true
+  }
+}

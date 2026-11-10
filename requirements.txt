@@ -1,5 +1,6 @@
 # Core AI
 google-genai>=0.5
+openai>=1.0
 python-dotenv>=1.0
 
 # Web Search (free, no API key needed)
@@ -16,6 +17,15 @@ pyttsx3>=2.90
 # Requires: pip install coqui-tts torch torchvision torchaudio
 # Install PyTorch FIRST from https://pytorch.org/get-started/locally/
 # Then: pip install coqui-tts
+
+# Edge TTS (natural neural voice, no API key needed)
+edge-tts>=6.1
+
+# Audio playback (used by Edge TTS and ElevenLabs)
+pygame>=2.5
+
+# ElevenLabs TTS — optional, needs ELEVENLABS_API_KEY
+# pip install elevenlabs
 
 # WebSocket server
 websockets>=12.0

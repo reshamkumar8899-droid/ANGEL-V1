@@ -107,6 +107,16 @@ To use XTTS v2 voice cloning, you need PyTorch + coqui-tts:
 > **Note:** First run will auto-download the XTTS v2 model (~1.8 GB). This only happens once.  
 > Without `angel_voice.wav`, Angel falls back to a default system voice automatically.
 
+### Step 5 — (Optional) Add a 3D avatar
+
+Angel's HUD supports a 3D VRM avatar. To enable it:
+
+1. Obtain or create a `.vrm` model file (e.g. from [VRoid Studio](https://vroid.com/en/studio))
+2. Place it as `web/angel.vrm` in the project directory
+3. The avatar will load automatically on next launch
+
+> **Note:** Without `angel.vrm`, the HUD still works — the 3D viewport will show a "LOAD FAILED" message but all other features (chat, voice, PC control) remain functional.
+
 ---
 
 ## ▶️ Running

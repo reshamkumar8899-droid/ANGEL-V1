@@ -15,7 +15,7 @@ if errorlevel 1 (
 )
 
 echo [1/4] Installing core dependencies...
-pip install google-genai python-dotenv SpeechRecognition pyttsx3 websockets
+pip install google-genai python-dotenv SpeechRecognition pyttsx3 websockets edge-tts ddgs pyautogui psutil pygame
 echo.
 
 echo [2/4] Installing PyAudio for microphone input...

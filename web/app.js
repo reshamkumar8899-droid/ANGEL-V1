@@ -215,7 +215,10 @@ function addMessage(role, html) {
 }
 function setResponseText(html) {
   const rp = document.getElementById('responsePanel');
-  document.getElementById('responseText').innerHTML = html;
+  const el = document.getElementById('responseText');
+  // Double-check: strip any raw HTML tags that aren't our safe formatting
+  const safe = html.replace(/<(?!\/?(?:strong|br|em|b|i)\s*\/?>)[^>]+>/gi, '');
+  el.innerHTML = safe;
   if (rp) rp.classList.add('visible');
 }
 function setTranscript(text) {
@@ -253,13 +256,81 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ── Init ──────────────────────────────────────────────────
+const isOverlayMode = new URLSearchParams(window.location.search).has('overlay');
+
 window.addEventListener('load', () => {
   setState('CONNECTING');
   connect();
+
+  // Activate overlay mode if launched via Electron overlay
+  if (isOverlayMode) {
+    document.body.classList.add('overlay-mode');
+    initOverlayClickThrough();
+  }
 });
 
+// ── Overlay mode: click-through on transparent areas ──────
+function initOverlayClickThrough() {
+  if (!window.angelOverlay) return;
+
+  // Elements that should always be interactive (not click-through)
+  const interactiveSelectors = [
+    '.composer', '.chat-overlay.open', '.header-left',
+    '.overlay-controls', '.setup-modal.visible'
+  ];
+
+  document.addEventListener('mousemove', (e) => {
+    // Check if mouse is over any interactive element
+    const isOverInteractive = interactiveSelectors.some(sel => {
+      const el = document.querySelector(sel);
+      if (!el) return false;
+      const rect = el.getBoundingClientRect();
+      return (
+        e.clientX >= rect.left && e.clientX <= rect.right &&
+        e.clientY >= rect.top && e.clientY <= rect.bottom
+      );
+    });
+
+    // Check if mouse is over the 3D avatar (non-transparent pixel)
+    const canvas = document.getElementById('vrm-canvas');
+    if (canvas && !isOverInteractive) {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      if (gl) {
+        const pixel = new Uint8Array(4);
+        const px = Math.floor(x * (canvas.width / rect.width));
+        const py = canvas.height - Math.floor(y * (canvas.height / rect.height));
+        gl.readPixels(px, py, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pixel);
+        // If pixel has alpha > threshold, it's the avatar — make interactive
+        if (pixel[3] > 10) {
+          window.angelOverlay.setIgnoreMouse(false);
+          return;
+        }
+      }
+    }
+
+    if (isOverInteractive) {
+      window.angelOverlay.setIgnoreMouse(false);
+    } else {
+      window.angelOverlay.setIgnoreMouse(true);
+    }
+  });
+}
+
+// ── Overlay control buttons ───────────────────────────────
+function minimizeOverlay() {
+  if (window.angelOverlay) window.angelOverlay.minimize();
+}
+function closeOverlay() {
+  if (window.angelOverlay) window.angelOverlay.close();
+}
+
 // ── Expose functions to HTML onclick handlers ─────────────
-window.sendMessage  = sendMessage;
-window.toggleMic    = toggleMic;
-window.toggleChat   = toggleChat;
-window.saveApiKey   = saveApiKey;
+window.sendMessage      = sendMessage;
+window.toggleMic        = toggleMic;
+window.toggleChat       = toggleChat;
+window.saveApiKey        = saveApiKey;
+window.minimizeOverlay  = minimizeOverlay;
+window.closeOverlay     = closeOverlay;

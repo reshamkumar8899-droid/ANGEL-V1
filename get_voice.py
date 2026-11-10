@@ -9,6 +9,8 @@ import subprocess
 
 def download_voice(url: str):
     out_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "angel_voice.wav")
+    # Use a temp name so yt-dlp's intermediate files don't clash
+    tmp_template = os.path.join(os.path.dirname(os.path.abspath(__file__)), "angel_voice_dl.%(ext)s")
     print(f"[Angel] Downloading audio from: {url}")
     result = subprocess.run([
         sys.executable, "-m", "yt_dlp",
@@ -16,15 +18,25 @@ def download_voice(url: str):
         "--audio-format", "wav",
         "--audio-quality", "0",
         "--postprocessor-args", "-ar 22050 -ac 1",
-        "-o", out_path.replace(".wav", ".%(ext)s"),
+        "-o", tmp_template,
         "--no-playlist",
         url
     ], capture_output=False)
 
-    if result.returncode == 0 and os.path.exists(out_path):
+    # yt-dlp outputs to angel_voice_dl.wav after conversion
+    tmp_wav = os.path.join(os.path.dirname(os.path.abspath(__file__)), "angel_voice_dl.wav")
+    if result.returncode == 0 and os.path.exists(tmp_wav):
+        # Rename to final path (overwrite if exists)
+        if os.path.exists(out_path):
+            os.remove(out_path)
+        os.rename(tmp_wav, out_path)
         print(f"\n✅ Voice sample saved to: {out_path}")
         print("Now run: python angel.py")
     else:
+        # Clean up any leftover temp files
+        for f in os.listdir(os.path.dirname(os.path.abspath(__file__))):
+            if f.startswith("angel_voice_dl."):
+                os.remove(os.path.join(os.path.dirname(os.path.abspath(__file__)), f))
         print("\n❌ Download failed. Make sure the URL is correct.")
 
 if __name__ == "__main__":
