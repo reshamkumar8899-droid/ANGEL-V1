@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@100;300;400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css?v=13"/>
+  <link rel="stylesheet" href="style.css?v=14"/>
 </head>
 <body>
 
@@ -125,7 +125,7 @@
 
   </div>
 
-  <script src="app.js?v=13"></script>
+  <script src="app.js?v=14"></script>
 
   <script type="importmap">
   {
@@ -231,6 +231,10 @@
         scene.add(vrm.scene);
         currentVrm = vrm;
         baseY = vrm.scene.position.y;
+
+        // Set arms to idle pose ONCE (no more per-frame lerping)
+        setRestPose();
+
         frameModel(vrm.scene);
         dbg(currentState);
       },
@@ -246,6 +250,19 @@
       b.rotation.y += (y - b.rotation.y) * t;
       b.rotation.z += (z - b.rotation.z) * t;
     };
+    // Set bone rotation directly (no lerp)
+    const setBone = (name, x, y, z) => {
+      const b = getBone(name); if (!b) return;
+      b.rotation.set(x, y, z);
+    };
+
+    // Rest pose — arms at sides, called once on load and after gestures
+    function setRestPose() {
+      setBone('rightUpperArm', 0.1, 0, -1.15);
+      setBone('leftUpperArm',  0.1, 0,  1.15);
+      setBone('rightLowerArm', -0.05, 0, -0.12);
+      setBone('leftLowerArm',  -0.05, 0,  0.12);
+    }
 
     // Expressions
     const EXPRS = ['happy','angry','sad','surprised','neutral','aa','ih','ou','ee','oh','blink','relaxed'];
@@ -290,32 +307,8 @@
       lookTarget.position.y += (-mouseY*0.3+1.2 - lookTarget.position.y) * Math.min(1, dt*6);
       lookTarget.position.z = 2;
 
-      // Arms — skip if gesture is playing or debug pose mode
-      if (!activeGesture && !debugPose) {
-        // Default idle arm pose — used by most states
-        const idleArms = () => {
-          rotateBone('rightUpperArm', 0.1, 0, -1.15, 0.06);
-          rotateBone('leftUpperArm',  0.1, 0,  1.15, 0.06);
-          rotateBone('rightLowerArm', -0.05, 0, -0.12, 0.06);
-          rotateBone('leftLowerArm',  -0.05, 0,  0.12, 0.06);
-        };
-
-        switch (currentState) {
-          case 'LISTENING':
-          case 'SPEAKING':
-          case 'REMINDER':
-          case 'WAKING':
-            idleArms();
-            break;
-          case 'THINKING': case 'SEARCHING':
-            // Right hand near chin, left stays at side
-            rotateBone('rightUpperArm', -0.8, 0.3, -0.5, 0.06);
-            rotateBone('rightLowerArm', -1.3+Math.sin(breathPhase*0.6)*0.03, 0, 0, 0.06);
-            rotateBone('leftUpperArm',  0.1, 0, 1.15, 0.06);
-            rotateBone('leftLowerArm',  -0.05, 0, 0.12, 0.06);
-            break;
-        }
-      }
+      // Arms — only gestures move them; otherwise they stay in rest pose
+      // (set once on model load by setRestPose, not lerped every frame)
 
       // Blink
       if (isBlinking) {
@@ -529,6 +522,7 @@
           console.log(`[Angel3D] Gesture done: ${activeGesture.name}`);
           activeGesture = null;
           gestureTimer = 0;
+          setRestPose();  // return arms to idle
         }
       }
     }
