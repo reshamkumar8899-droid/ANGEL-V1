@@ -293,34 +293,35 @@
       if (!activeGesture) {
       switch (currentState) {
         case 'LISTENING':
-          // Natural idle — arms relaxed by sides, slight elbow bend
-          rotateBone('rightUpperArm', 0.15, 0, -1.3+Math.sin(breathPhase*0.4)*0.01, 0.06);
-          rotateBone('leftUpperArm',  0.15, 0,  1.3+Math.sin(breathPhase*0.4+1)*0.01, 0.06);
-          rotateBone('rightLowerArm', -0.08-Math.sin(breathPhase*0.3)*0.02, 0, -0.15, 0.06);
-          rotateBone('leftLowerArm',  -0.08-Math.sin(breathPhase*0.3+1)*0.02, 0,  0.15, 0.06);
+          // Natural idle — arms at sides (slightly out to avoid dress clipping)
+          rotateBone('rightUpperArm', 0.1, 0, -1.15, 0.06);
+          rotateBone('leftUpperArm',  0.1, 0,  1.15, 0.06);
+          rotateBone('rightLowerArm', -0.05, 0, -0.12, 0.06);
+          rotateBone('leftLowerArm',  -0.05, 0,  0.12, 0.06);
           break;
         case 'THINKING': case 'SEARCHING':
-          // Right hand near chin, left arm relaxed
-          rotateBone('rightUpperArm', -0.9, 0.3, -0.5, 0.06);
+          // Right hand near chin, left stays at side
+          rotateBone('rightUpperArm', -0.8, 0.3, -0.5, 0.06);
           rotateBone('rightLowerArm', -1.3+Math.sin(breathPhase*0.6)*0.03, 0, 0, 0.06);
-          rotateBone('leftUpperArm',  0.15, 0, 1.2, 0.06);
-          rotateBone('leftLowerArm',  -0.08, 0, 0.15, 0.06);
+          rotateBone('leftUpperArm',  0.1, 0, 1.15, 0.06);
+          rotateBone('leftLowerArm',  -0.05, 0, 0.12, 0.06);
           break;
         case 'SPEAKING': case 'REMINDER': {
-          // Subtle hand gestures while talking — one hand up, one relaxed
-          const gt = speakPhase * 1.2;
-          rotateBone('rightUpperArm', -0.3+Math.sin(gt)*0.08, 0.05, -0.8+Math.sin(gt*0.7)*0.06, 0.08);
-          rotateBone('rightLowerArm', -0.3+Math.sin(gt*1.1)*0.08, 0, -0.1, 0.08);
-          rotateBone('leftUpperArm',  0.15+Math.sin(gt+2)*0.04, 0, 1.1, 0.06);
-          rotateBone('leftLowerArm',  -0.08+Math.sin(gt*0.8+1)*0.03, 0, 0.15, 0.06);
+          // Very subtle — mostly same as idle with tiny right hand motion
+          const gt = speakPhase * 1.0;
+          const subtle = Math.sin(gt) * 0.05;
+          rotateBone('rightUpperArm', 0.05+subtle, 0, -1.05+Math.sin(gt*0.7)*0.04, 0.06);
+          rotateBone('rightLowerArm', -0.1+Math.sin(gt*0.8)*0.04, 0, -0.12, 0.06);
+          rotateBone('leftUpperArm',  0.1, 0, 1.15, 0.06);
+          rotateBone('leftLowerArm',  -0.05, 0, 0.12, 0.06);
           break;
         }
         case 'WAKING':
-          // Slightly alert, both arms come up a bit
-          rotateBone('rightUpperArm', -0.2, 0.1, -0.9, 0.08);
-          rotateBone('rightLowerArm', -0.3, 0, -0.1, 0.08);
-          rotateBone('leftUpperArm',  -0.2, -0.1, 0.9, 0.08);
-          rotateBone('leftLowerArm',  -0.3, 0, 0.1, 0.08);
+          // Slightly alert — arms just a bit out from idle
+          rotateBone('rightUpperArm', -0.1, 0.05, -1.0, 0.08);
+          rotateBone('rightLowerArm', -0.15, 0, -0.1, 0.08);
+          rotateBone('leftUpperArm',  -0.1, -0.05, 1.0, 0.08);
+          rotateBone('leftLowerArm',  -0.15, 0, 0.1, 0.08);
           break;
       }
       }
