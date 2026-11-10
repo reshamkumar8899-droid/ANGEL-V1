@@ -106,6 +106,11 @@ function handleEvent(msg) {
       break;
     case 'pong':
       break;
+    case 'gestures':
+      if (msg.actions && window.playGestures) {
+        window.playGestures(msg.actions);
+      }
+      break;
   }
 }
 
