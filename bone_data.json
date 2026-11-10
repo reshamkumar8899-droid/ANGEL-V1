@@ -1,0 +1,3578 @@
+{
+  "Root": {
+    "parent": null,
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "tail": [
+      0.0,
+      0.0,
+      0.9441
+    ],
+    "length": 0.9441
+  },
+  "J_Bip_C_Hips": {
+    "parent": "Root",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0003,
+      0.0058,
+      0.944
+    ],
+    "tail": [
+      0.0003,
+      0.0058,
+      0.9979
+    ],
+    "length": 0.0538
+  },
+  "J_Sec_L_SkirtSide0": {
+    "parent": "J_Bip_C_Hips",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.1912,
+      0.0138,
+      0.9262
+    ],
+    "tail": [
+      -0.1912,
+      0.0138,
+      0.98
+    ],
+    "length": 0.0538
+  },
+  "J_Sec_L_SkirtSide1": {
+    "parent": "J_Sec_L_SkirtSide0",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.1912,
+      0.0138,
+      0.9262
+    ],
+    "tail": [
+      -0.1912,
+      0.0138,
+      1.0689
+    ],
+    "length": 0.1426
+  },
+  "J_Sec_L_SkirtSide2": {
+    "parent": "J_Sec_L_SkirtSide1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.2504,
+      -0.0021,
+      0.7975
+    ],
+    "tail": [
+      -0.2504,
+      -0.0021,
+      0.931
+    ],
+    "length": 0.1335
+  },
+  "J_Sec_L_SkirtSide2_end": {
+    "parent": "J_Sec_L_SkirtSide2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.2995,
+      -0.0163,
+      0.6741
+    ],
+    "tail": [
+      -0.2995,
+      -0.0163,
+      0.8076
+    ],
+    "length": 0.1335
+  },
+  "J_Sec_R_SkirtSide0": {
+    "parent": "J_Bip_C_Hips",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.1918,
+      0.0138,
+      0.9262
+    ],
+    "tail": [
+      0.1918,
+      0.0138,
+      0.98
+    ],
+    "length": 0.0538
+  },
+  "J_Sec_R_SkirtSide1": {
+    "parent": "J_Sec_R_SkirtSide0",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.1918,
+      0.0138,
+      0.9262
+    ],
+    "tail": [
+      0.1918,
+      0.0138,
+      1.0689
+    ],
+    "length": 0.1426
+  },
+  "J_Sec_R_SkirtSide2": {
+    "parent": "J_Sec_R_SkirtSide1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.2511,
+      -0.0021,
+      0.7975
+    ],
+    "tail": [
+      0.2511,
+      -0.0021,
+      0.931
+    ],
+    "length": 0.1335
+  },
+  "J_Sec_R_SkirtSide2_end": {
+    "parent": "J_Sec_R_SkirtSide2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.3001,
+      -0.0163,
+      0.6741
+    ],
+    "tail": [
+      0.3001,
+      -0.0163,
+      0.8076
+    ],
+    "length": 0.1335
+  },
+  "J_Bip_C_Spine": {
+    "parent": "J_Bip_C_Hips",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0003,
+      0.0157,
+      0.997
+    ],
+    "tail": [
+      0.0003,
+      0.0157,
+      1.1118
+    ],
+    "length": 0.1149
+  },
+  "J_Bip_C_Chest": {
+    "parent": "J_Bip_C_Spine",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0003,
+      0.0298,
+      1.111
+    ],
+    "tail": [
+      0.0003,
+      0.0298,
+      1.2358
+    ],
+    "length": 0.1249
+  },
+  "J_Bip_C_UpperChest": {
+    "parent": "J_Bip_C_Chest",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0003,
+      0.0162,
+      1.2351
+    ],
+    "tail": [
+      0.0003,
+      0.0162,
+      1.3193
+    ],
+    "length": 0.0842
+  },
+  "J_Sec_L_Bust1": {
+    "parent": "J_Bip_C_UpperChest",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0532,
+      0.0753,
+      1.2078
+    ],
+    "tail": [
+      -0.0532,
+      0.0753,
+      1.2681
+    ],
+    "length": 0.0603
+  },
+  "J_Sec_L_Bust2": {
+    "parent": "J_Sec_L_Bust1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      -0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      -0.0
+    ],
+    "head": [
+      -0.0802,
+      0.1288,
+      1.2137
+    ],
+    "tail": [
+      -0.0802,
+      0.1288,
+      1.274
+    ],
+    "length": 0.0603
+  },
+  "J_Sec_R_Bust1": {
+    "parent": "J_Bip_C_UpperChest",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0539,
+      0.0753,
+      1.2078
+    ],
+    "tail": [
+      0.0539,
+      0.0753,
+      1.2681
+    ],
+    "length": 0.0603
+  },
+  "J_Sec_R_Bust2": {
+    "parent": "J_Sec_R_Bust1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      -0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      -0.0
+    ],
+    "head": [
+      0.0808,
+      0.1288,
+      1.2137
+    ],
+    "tail": [
+      0.0808,
+      0.1288,
+      1.274
+    ],
+    "length": 0.0603
+  },
+  "J_Bip_C_Neck": {
+    "parent": "J_Bip_C_UpperChest",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0003,
+      -0.0172,
+      1.3497
+    ],
+    "tail": [
+      0.0003,
+      -0.0172,
+      1.4225
+    ],
+    "length": 0.0728
+  },
+  "J_Bip_C_Head": {
+    "parent": "J_Bip_C_Neck",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0003,
+      -0.0079,
+      1.4219
+    ],
+    "tail": [
+      0.0003,
+      -0.0079,
+      1.5317
+    ],
+    "length": 0.1098
+  },
+  "J_Adj_L_FaceEyeSet": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0419,
+      0.0748,
+      1.4806
+    ],
+    "tail": [
+      -0.0419,
+      0.0748,
+      1.539
+    ],
+    "length": 0.0585
+  },
+  "J_Adj_L_FaceEye": {
+    "parent": "J_Adj_L_FaceEyeSet",
+    "rest_euler_deg": [
+      90.0,
+      -0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      -0.0,
+      0.0
+    ],
+    "head": [
+      -0.0205,
+      0.0205,
+      1.484
+    ],
+    "tail": [
+      -0.0205,
+      0.0205,
+      1.5425
+    ],
+    "length": 0.0585
+  },
+  "J_Adj_R_FaceEyeSet": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0426,
+      0.0748,
+      1.4806
+    ],
+    "tail": [
+      0.0426,
+      0.0748,
+      1.539
+    ],
+    "length": 0.0585
+  },
+  "J_Adj_R_FaceEye": {
+    "parent": "J_Adj_R_FaceEyeSet",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0212,
+      0.0205,
+      1.484
+    ],
+    "tail": [
+      0.0212,
+      0.0205,
+      1.5425
+    ],
+    "length": 0.0585
+  },
+  "HairJoint-a04788eb-7a77-4b6e-95a1-3f403354b3fc": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0076,
+      0.1012,
+      1.569
+    ],
+    "tail": [
+      0.0076,
+      0.1012,
+      1.597
+    ],
+    "length": 0.028
+  },
+  "HairJoint-535acb8b-04f1-4807-8564-bcde390e8d9d": {
+    "parent": "HairJoint-a04788eb-7a77-4b6e-95a1-3f403354b3fc",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0083,
+      0.1058,
+      1.5414
+    ],
+    "tail": [
+      0.0083,
+      0.1058,
+      1.5694
+    ],
+    "length": 0.028
+  },
+  "HairJoint-07972c93-5c49-440c-aab6-666d97f53896": {
+    "parent": "HairJoint-535acb8b-04f1-4807-8564-bcde390e8d9d",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.006,
+      0.1067,
+      1.5134
+    ],
+    "tail": [
+      0.006,
+      0.1067,
+      1.5415
+    ],
+    "length": 0.028
+  },
+  "HairJoint-c35bc030-3da3-4d49-ab7c-4aabeedc2de1": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0194,
+      0.0986,
+      1.5726
+    ],
+    "tail": [
+      -0.0194,
+      0.0986,
+      1.5996
+    ],
+    "length": 0.027
+  },
+  "HairJoint-900f4eb5-ad8f-49c8-a862-358f11add7c6": {
+    "parent": "HairJoint-c35bc030-3da3-4d49-ab7c-4aabeedc2de1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0226,
+      0.1031,
+      1.5461
+    ],
+    "tail": [
+      -0.0226,
+      0.1031,
+      1.5731
+    ],
+    "length": 0.027
+  },
+  "HairJoint-b6fab7f2-19e4-4f4c-9184-b1dfe71f0e31": {
+    "parent": "HairJoint-900f4eb5-ad8f-49c8-a862-358f11add7c6",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0234,
+      0.1043,
+      1.5192
+    ],
+    "tail": [
+      -0.0234,
+      0.1043,
+      1.5462
+    ],
+    "length": 0.027
+  },
+  "HairJoint-f24a30fb-6c62-40b1-b06f-0e969332fc96": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0306,
+      0.0926,
+      1.5742
+    ],
+    "tail": [
+      -0.0306,
+      0.0926,
+      1.6027
+    ],
+    "length": 0.0285
+  },
+  "HairJoint-6346d9ad-cf3d-482c-b671-f83145042ac7": {
+    "parent": "HairJoint-f24a30fb-6c62-40b1-b06f-0e969332fc96",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.034,
+      0.0993,
+      1.5467
+    ],
+    "tail": [
+      -0.034,
+      0.0993,
+      1.5754
+    ],
+    "length": 0.0286
+  },
+  "HairJoint-09341a53-cba3-4835-b2d0-91b5066b5dda": {
+    "parent": "HairJoint-6346d9ad-cf3d-482c-b671-f83145042ac7",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0343,
+      0.101,
+      1.5182
+    ],
+    "tail": [
+      -0.0343,
+      0.101,
+      1.5468
+    ],
+    "length": 0.0286
+  },
+  "HairJoint-0db13061-2c8b-4731-b8fe-864e6080e928": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.087,
+      0.0548,
+      1.4971
+    ],
+    "tail": [
+      -0.087,
+      0.0548,
+      1.5409
+    ],
+    "length": 0.0438
+  },
+  "HairJoint-3e473c0c-8279-48c2-89f4-1210d66869f9": {
+    "parent": "HairJoint-0db13061-2c8b-4731-b8fe-864e6080e928",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0864,
+      0.0555,
+      1.4533
+    ],
+    "tail": [
+      -0.0864,
+      0.0555,
+      1.4971
+    ],
+    "length": 0.0438
+  },
+  "HairJoint-051a7dfd-721e-44bf-9ceb-3b2117bf45c1": {
+    "parent": "HairJoint-3e473c0c-8279-48c2-89f4-1210d66869f9",
+    "rest_euler_deg": [
+      90.0,
+      -0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      -0.0,
+      0.0
+    ],
+    "head": [
+      -0.0803,
+      0.0607,
+      1.4102
+    ],
+    "tail": [
+      -0.0803,
+      0.0607,
+      1.4541
+    ],
+    "length": 0.0438
+  },
+  "HairJoint-47abc8e5-1a6d-4b56-a4a2-ce87870c9c4b": {
+    "parent": "HairJoint-051a7dfd-721e-44bf-9ceb-3b2117bf45c1",
+    "rest_euler_deg": [
+      90.0,
+      -0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      -0.0,
+      0.0
+    ],
+    "head": [
+      -0.069,
+      0.0733,
+      1.3698
+    ],
+    "tail": [
+      -0.069,
+      0.0733,
+      1.4136
+    ],
+    "length": 0.0438
+  },
+  "HairJoint-1275757f-6fe5-4d78-be03-7138f9d26007": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0887,
+      0.0488,
+      1.4706
+    ],
+    "tail": [
+      0.0887,
+      0.0488,
+      1.5022
+    ],
+    "length": 0.0316
+  },
+  "HairJoint-74486861-7fd4-4229-a39c-53391b427112": {
+    "parent": "HairJoint-1275757f-6fe5-4d78-be03-7138f9d26007",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      -0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      -0.0
+    ],
+    "head": [
+      0.0837,
+      0.0521,
+      1.4396
+    ],
+    "tail": [
+      0.0837,
+      0.0521,
+      1.4712
+    ],
+    "length": 0.0316
+  },
+  "HairJoint-6d601c59-2c9b-428e-ac14-a6d790c24324": {
+    "parent": "HairJoint-74486861-7fd4-4229-a39c-53391b427112",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      -0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      -0.0
+    ],
+    "head": [
+      0.0761,
+      0.0572,
+      1.4094
+    ],
+    "tail": [
+      0.0761,
+      0.0572,
+      1.4409
+    ],
+    "length": 0.0315
+  },
+  "HairJoint-5a19dd4b-e27f-4e05-ae88-ce6f37072a1d": {
+    "parent": "HairJoint-6d601c59-2c9b-428e-ac14-a6d790c24324",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      -0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      -0.0
+    ],
+    "head": [
+      0.0649,
+      0.0663,
+      1.3814
+    ],
+    "tail": [
+      0.0649,
+      0.0663,
+      1.4129
+    ],
+    "length": 0.0315
+  },
+  "HairJoint-7c3e840e-e897-4444-9f28-c78b33eaa6d6": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0706,
+      0.0749,
+      1.5529
+    ],
+    "tail": [
+      0.0706,
+      0.0749,
+      1.5858
+    ],
+    "length": 0.0329
+  },
+  "HairJoint-bc1e78e1-423f-4bc9-8559-699bb36fd4d5": {
+    "parent": "HairJoint-7c3e840e-e897-4444-9f28-c78b33eaa6d6",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0727,
+      0.0756,
+      1.5201
+    ],
+    "tail": [
+      0.0727,
+      0.0756,
+      1.5529
+    ],
+    "length": 0.0327
+  },
+  "HairJoint-8fcd18cf-f70c-4b57-958b-1d705adf7c8d": {
+    "parent": "HairJoint-bc1e78e1-423f-4bc9-8559-699bb36fd4d5",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0663,
+      0.0803,
+      1.4884
+    ],
+    "tail": [
+      0.0663,
+      0.0803,
+      1.5211
+    ],
+    "length": 0.0327
+  },
+  "HairJoint-5b7d4f8d-4a41-452f-b278-3e04ef74d159": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0616,
+      0.0806,
+      1.5629
+    ],
+    "tail": [
+      0.0616,
+      0.0806,
+      1.5955
+    ],
+    "length": 0.0326
+  },
+  "HairJoint-31f3a8c7-c08e-4c02-9b56-d3e8688f2fba": {
+    "parent": "HairJoint-5b7d4f8d-4a41-452f-b278-3e04ef74d159",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0641,
+      0.0832,
+      1.5305
+    ],
+    "tail": [
+      0.0641,
+      0.0832,
+      1.5632
+    ],
+    "length": 0.0327
+  },
+  "HairJoint-bef70c9d-db6a-453f-b754-55576a091cb5": {
+    "parent": "HairJoint-31f3a8c7-c08e-4c02-9b56-d3e8688f2fba",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0607,
+      0.0853,
+      1.4981
+    ],
+    "tail": [
+      0.0607,
+      0.0853,
+      1.5307
+    ],
+    "length": 0.0327
+  },
+  "HairJoint-0436323a-45d9-4b3f-9caf-8c613e7ab228": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0438,
+      0.0925,
+      1.5619
+    ],
+    "tail": [
+      0.0438,
+      0.0925,
+      1.5926
+    ],
+    "length": 0.0307
+  },
+  "HairJoint-140a6dba-15a2-4230-8f22-928cebc7e306": {
+    "parent": "HairJoint-0436323a-45d9-4b3f-9caf-8c613e7ab228",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0478,
+      0.0942,
+      1.5316
+    ],
+    "tail": [
+      0.0478,
+      0.0942,
+      1.5622
+    ],
+    "length": 0.0307
+  },
+  "HairJoint-42a997d0-311a-46a4-bdba-ec37dc34ba20": {
+    "parent": "HairJoint-140a6dba-15a2-4230-8f22-928cebc7e306",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0469,
+      0.0944,
+      1.5009
+    ],
+    "tail": [
+      0.0469,
+      0.0944,
+      1.5316
+    ],
+    "length": 0.0307
+  },
+  "HairJoint-92a4c79d-a4ef-4650-87e3-545a0fb44ae4": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0287,
+      0.0974,
+      1.5673
+    ],
+    "tail": [
+      0.0287,
+      0.0974,
+      1.5971
+    ],
+    "length": 0.0298
+  },
+  "HairJoint-753e682b-3480-43d0-b85d-71fbb4429587": {
+    "parent": "HairJoint-92a4c79d-a4ef-4650-87e3-545a0fb44ae4",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0323,
+      0.1008,
+      1.5379
+    ],
+    "tail": [
+      0.0323,
+      0.1008,
+      1.5678
+    ],
+    "length": 0.0299
+  },
+  "HairJoint-1228e397-dc7b-4a07-a596-21637462b95b": {
+    "parent": "HairJoint-753e682b-3480-43d0-b85d-71fbb4429587",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0299,
+      0.1019,
+      1.5082
+    ],
+    "tail": [
+      0.0299,
+      0.1019,
+      1.538
+    ],
+    "length": 0.0299
+  },
+  "HairJoint-13e01abf-f503-4a07-a66f-e746d3276851": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.107,
+      0.0013,
+      1.4851
+    ],
+    "tail": [
+      0.107,
+      0.0013,
+      1.5261
+    ],
+    "length": 0.041
+  },
+  "HairJoint-1ab438c8-7662-4380-9858-23f300f6c595": {
+    "parent": "HairJoint-13e01abf-f503-4a07-a66f-e746d3276851",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.1019,
+      -0.0078,
+      1.4454
+    ],
+    "tail": [
+      0.1019,
+      -0.0078,
+      1.4864
+    ],
+    "length": 0.041
+  },
+  "HairJoint-a3eb3cc9-022c-455d-98da-6fd99adeb1f5": {
+    "parent": "HairJoint-1ab438c8-7662-4380-9858-23f300f6c595",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.091,
+      -0.0128,
+      1.4062
+    ],
+    "tail": [
+      0.091,
+      -0.0128,
+      1.4472
+    ],
+    "length": 0.041
+  },
+  "HairJoint-098820b3-4aa3-48c9-94a4-2c89e3d2ac8b": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0904,
+      -0.0769,
+      1.5073
+    ],
+    "tail": [
+      0.0904,
+      -0.0769,
+      1.5507
+    ],
+    "length": 0.0434
+  },
+  "HairJoint-97d2c5b4-4bf5-4777-8502-0a7d5b5d1e97": {
+    "parent": "HairJoint-098820b3-4aa3-48c9-94a4-2c89e3d2ac8b",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0859,
+      -0.0774,
+      1.4642
+    ],
+    "tail": [
+      0.0859,
+      -0.0774,
+      1.5076
+    ],
+    "length": 0.0434
+  },
+  "HairJoint-fa6be46a-2b0c-429a-9860-d99be16f6202": {
+    "parent": "HairJoint-97d2c5b4-4bf5-4777-8502-0a7d5b5d1e97",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0768,
+      -0.0742,
+      1.4219
+    ],
+    "tail": [
+      0.0768,
+      -0.0742,
+      1.4653
+    ],
+    "length": 0.0434
+  },
+  "HairJoint-39978425-d125-4c40-8806-32f61b76cdc5": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.001,
+      -0.1266,
+      1.4962
+    ],
+    "tail": [
+      0.001,
+      -0.1266,
+      1.531
+    ],
+    "length": 0.0348
+  },
+  "HairJoint-47328f54-5b10-4eed-86a0-664ba54b2fad": {
+    "parent": "HairJoint-39978425-d125-4c40-8806-32f61b76cdc5",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0007,
+      -0.1206,
+      1.4619
+    ],
+    "tail": [
+      0.0007,
+      -0.1206,
+      1.4967
+    ],
+    "length": 0.0348
+  },
+  "HairJoint-2efd2204-78ee-49d7-aeb0-f3427e8ee41c": {
+    "parent": "HairJoint-47328f54-5b10-4eed-86a0-664ba54b2fad",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0004,
+      -0.1123,
+      1.4281
+    ],
+    "tail": [
+      0.0004,
+      -0.1123,
+      1.4629
+    ],
+    "length": 0.0348
+  },
+  "HairJoint-6d9c818f-ed94-4f17-a332-09e58964f5de": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0843,
+      -0.0886,
+      1.5049
+    ],
+    "tail": [
+      -0.0843,
+      -0.0886,
+      1.5496
+    ],
+    "length": 0.0447
+  },
+  "HairJoint-7ff5fb53-379e-4c21-8550-d8cdd9897c75": {
+    "parent": "HairJoint-6d9c818f-ed94-4f17-a332-09e58964f5de",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0793,
+      -0.0864,
+      1.4605
+    ],
+    "tail": [
+      -0.0793,
+      -0.0864,
+      1.5052
+    ],
+    "length": 0.0447
+  },
+  "HairJoint-60de1643-eab0-4af9-9009-1224aab7c934": {
+    "parent": "HairJoint-7ff5fb53-379e-4c21-8550-d8cdd9897c75",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0701,
+      -0.0808,
+      1.4171
+    ],
+    "tail": [
+      -0.0701,
+      -0.0808,
+      1.4618
+    ],
+    "length": 0.0447
+  },
+  "HairJoint-e9356468-a496-4b6f-b576-dc4a5b963d4d": {
+    "parent": "J_Bip_C_Head",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.1122,
+      -0.0177,
+      1.4978
+    ],
+    "tail": [
+      -0.1122,
+      -0.0177,
+      1.5476
+    ],
+    "length": 0.0498
+  },
+  "HairJoint-a3d11577-b757-46db-8937-6176fcaa4e65": {
+    "parent": "HairJoint-e9356468-a496-4b6f-b576-dc4a5b963d4d",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.1108,
+      -0.0255,
+      1.4487
+    ],
+    "tail": [
+      -0.1108,
+      -0.0255,
+      1.4981
+    ],
+    "length": 0.0494
+  },
+  "HairJoint-76f251b5-25b0-4882-8e23-8883ec50ef59": {
+    "parent": "HairJoint-a3d11577-b757-46db-8937-6176fcaa4e65",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0952,
+      -0.0427,
+      1.4051
+    ],
+    "tail": [
+      -0.0952,
+      -0.0427,
+      1.4545
+    ],
+    "length": 0.0494
+  },
+  "J_Bip_L_Shoulder": {
+    "parent": "J_Bip_C_UpperChest",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.022,
+      -0.0113,
+      1.3223
+    ],
+    "tail": [
+      -0.022,
+      -0.0113,
+      1.41
+    ],
+    "length": 0.0877
+  },
+  "J_Bip_L_UpperArm": {
+    "parent": "J_Bip_L_Shoulder",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.1083,
+      -0.0059,
+      1.3074
+    ],
+    "tail": [
+      -0.1083,
+      -0.0059,
+      1.5267
+    ],
+    "length": 0.2193
+  },
+  "J_Bip_L_LowerArm": {
+    "parent": "J_Bip_L_UpperArm",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.3273,
+      -0.004,
+      1.2973
+    ],
+    "tail": [
+      -0.3273,
+      -0.004,
+      1.4059
+    ],
+    "length": 0.1087
+  },
+  "J_Sec_L_LowerSleeve": {
+    "parent": "J_Bip_L_LowerArm",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.4336,
+      0.0067,
+      1.2771
+    ],
+    "tail": [
+      -0.4336,
+      0.0067,
+      1.355
+    ],
+    "length": 0.0779
+  },
+  "J_Sec_L_LowerSleeve_end": {
+    "parent": "J_Sec_L_LowerSleeve",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.4392,
+      0.0056,
+      1.1995
+    ],
+    "tail": [
+      -0.4392,
+      0.0056,
+      1.2774
+    ],
+    "length": 0.0779
+  },
+  "J_Sec_L_TipSleeve": {
+    "parent": "J_Bip_L_LowerArm",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.5368,
+      0.0052,
+      1.2816
+    ],
+    "tail": [
+      -0.5368,
+      0.0052,
+      1.3273
+    ],
+    "length": 0.0457
+  },
+  "J_Sec_L_TipSleeve_end": {
+    "parent": "J_Sec_L_TipSleeve",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.5822,
+      0.0078,
+      1.2764
+    ],
+    "tail": [
+      -0.5822,
+      0.0078,
+      1.3221
+    ],
+    "length": 0.0457
+  },
+  "J_Bip_L_Hand": {
+    "parent": "J_Bip_L_LowerArm",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.5409,
+      0.0136,
+      1.2968
+    ],
+    "tail": [
+      -0.5409,
+      0.0136,
+      1.3159
+    ],
+    "length": 0.0191
+  },
+  "J_Bip_L_Index1": {
+    "parent": "J_Bip_L_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6048,
+      0.035,
+      1.3023
+    ],
+    "tail": [
+      -0.6048,
+      0.035,
+      1.3356
+    ],
+    "length": 0.0332
+  },
+  "J_Bip_L_Index2": {
+    "parent": "J_Bip_L_Index1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6376,
+      0.0402,
+      1.3022
+    ],
+    "tail": [
+      -0.6376,
+      0.0402,
+      1.3227
+    ],
+    "length": 0.0205
+  },
+  "J_Bip_L_Index3": {
+    "parent": "J_Bip_L_Index2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.658,
+      0.0425,
+      1.3015
+    ],
+    "tail": [
+      -0.658,
+      0.0425,
+      1.3258
+    ],
+    "length": 0.0242
+  },
+  "J_Bip_L_Index3_end": {
+    "parent": "J_Bip_L_Index3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6821,
+      0.0447,
+      1.3006
+    ],
+    "tail": [
+      -0.6821,
+      0.0447,
+      1.3249
+    ],
+    "length": 0.0242
+  },
+  "J_Bip_L_Little1": {
+    "parent": "J_Bip_L_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6042,
+      -0.0132,
+      1.2999
+    ],
+    "tail": [
+      -0.6042,
+      -0.0132,
+      1.3313
+    ],
+    "length": 0.0314
+  },
+  "J_Bip_L_Little2": {
+    "parent": "J_Bip_L_Little1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6356,
+      -0.0132,
+      1.2996
+    ],
+    "tail": [
+      -0.6356,
+      -0.0132,
+      1.3177
+    ],
+    "length": 0.0181
+  },
+  "J_Bip_L_Little3": {
+    "parent": "J_Bip_L_Little2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6536,
+      -0.0141,
+      1.3003
+    ],
+    "tail": [
+      -0.6536,
+      -0.0141,
+      1.3197
+    ],
+    "length": 0.0194
+  },
+  "J_Bip_L_Little3_end": {
+    "parent": "J_Bip_L_Little3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.673,
+      -0.0147,
+      1.3014
+    ],
+    "tail": [
+      -0.673,
+      -0.0147,
+      1.3208
+    ],
+    "length": 0.0194
+  },
+  "J_Bip_L_Middle1": {
+    "parent": "J_Bip_L_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.607,
+      0.0184,
+      1.3052
+    ],
+    "tail": [
+      -0.607,
+      0.0184,
+      1.3422
+    ],
+    "length": 0.037
+  },
+  "J_Bip_L_Middle2": {
+    "parent": "J_Bip_L_Middle1",
+    "rest_euler_deg": [
+      90.0,
+      -0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      -0.0,
+      0.0
+    ],
+    "head": [
+      -0.6439,
+      0.0208,
+      1.3038
+    ],
+    "tail": [
+      -0.6439,
+      0.0208,
+      1.3266
+    ],
+    "length": 0.0228
+  },
+  "J_Bip_L_Middle3": {
+    "parent": "J_Bip_L_Middle2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6666,
+      0.0217,
+      1.3014
+    ],
+    "tail": [
+      -0.6666,
+      0.0217,
+      1.3264
+    ],
+    "length": 0.025
+  },
+  "J_Bip_L_Middle3_end": {
+    "parent": "J_Bip_L_Middle3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6916,
+      0.0226,
+      1.2998
+    ],
+    "tail": [
+      -0.6916,
+      0.0226,
+      1.3248
+    ],
+    "length": 0.025
+  },
+  "J_Bip_L_Ring1": {
+    "parent": "J_Bip_L_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6076,
+      0.0026,
+      1.3051
+    ],
+    "tail": [
+      -0.6076,
+      0.0026,
+      1.3394
+    ],
+    "length": 0.0343
+  },
+  "J_Bip_L_Ring2": {
+    "parent": "J_Bip_L_Ring1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6419,
+      0.0028,
+      1.3046
+    ],
+    "tail": [
+      -0.6419,
+      0.0028,
+      1.3244
+    ],
+    "length": 0.0198
+  },
+  "J_Bip_L_Ring3": {
+    "parent": "J_Bip_L_Ring2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6617,
+      0.003,
+      1.3053
+    ],
+    "tail": [
+      -0.6617,
+      0.003,
+      1.3266
+    ],
+    "length": 0.0214
+  },
+  "J_Bip_L_Ring3_end": {
+    "parent": "J_Bip_L_Ring3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6831,
+      0.0029,
+      1.3056
+    ],
+    "tail": [
+      -0.6831,
+      0.0029,
+      1.3269
+    ],
+    "length": 0.0214
+  },
+  "J_Bip_L_Thumb1": {
+    "parent": "J_Bip_L_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.543,
+      0.0313,
+      1.2899
+    ],
+    "tail": [
+      -0.543,
+      0.0313,
+      1.3364
+    ],
+    "length": 0.0465
+  },
+  "J_Bip_L_Thumb2": {
+    "parent": "J_Bip_L_Thumb1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.5752,
+      0.0647,
+      1.2872
+    ],
+    "tail": [
+      -0.5752,
+      0.0647,
+      1.3158
+    ],
+    "length": 0.0286
+  },
+  "J_Bip_L_Thumb3": {
+    "parent": "J_Bip_L_Thumb2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.5966,
+      0.0838,
+      1.2857
+    ],
+    "tail": [
+      -0.5966,
+      0.0838,
+      1.3073
+    ],
+    "length": 0.0217
+  },
+  "J_Bip_L_Thumb3_end": {
+    "parent": "J_Bip_L_Thumb3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.6115,
+      0.0994,
+      1.2849
+    ],
+    "tail": [
+      -0.6115,
+      0.0994,
+      1.3065
+    ],
+    "length": 0.0217
+  },
+  "J_Bip_R_Shoulder": {
+    "parent": "J_Bip_C_UpperChest",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0227,
+      -0.0113,
+      1.3223
+    ],
+    "tail": [
+      0.0227,
+      -0.0113,
+      1.41
+    ],
+    "length": 0.0877
+  },
+  "J_Bip_R_UpperArm": {
+    "parent": "J_Bip_R_Shoulder",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.109,
+      -0.0059,
+      1.3074
+    ],
+    "tail": [
+      0.109,
+      -0.0059,
+      1.5267
+    ],
+    "length": 0.2193
+  },
+  "J_Bip_R_LowerArm": {
+    "parent": "J_Bip_R_UpperArm",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.328,
+      -0.004,
+      1.2973
+    ],
+    "tail": [
+      0.328,
+      -0.004,
+      1.4059
+    ],
+    "length": 0.1087
+  },
+  "J_Sec_R_LowerSleeve": {
+    "parent": "J_Bip_R_LowerArm",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.4343,
+      0.0067,
+      1.2771
+    ],
+    "tail": [
+      0.4343,
+      0.0067,
+      1.355
+    ],
+    "length": 0.0779
+  },
+  "J_Sec_R_LowerSleeve_end": {
+    "parent": "J_Sec_R_LowerSleeve",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.4399,
+      0.0056,
+      1.1995
+    ],
+    "tail": [
+      0.4399,
+      0.0056,
+      1.2773
+    ],
+    "length": 0.0779
+  },
+  "J_Sec_R_TipSleeve": {
+    "parent": "J_Bip_R_LowerArm",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.5375,
+      0.0052,
+      1.2816
+    ],
+    "tail": [
+      0.5375,
+      0.0052,
+      1.3273
+    ],
+    "length": 0.0457
+  },
+  "J_Sec_R_TipSleeve_end": {
+    "parent": "J_Sec_R_TipSleeve",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.5829,
+      0.0078,
+      1.2764
+    ],
+    "tail": [
+      0.5829,
+      0.0078,
+      1.3221
+    ],
+    "length": 0.0457
+  },
+  "J_Bip_R_Hand": {
+    "parent": "J_Bip_R_LowerArm",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.5416,
+      0.0136,
+      1.2968
+    ],
+    "tail": [
+      0.5416,
+      0.0136,
+      1.3159
+    ],
+    "length": 0.0191
+  },
+  "J_Bip_R_Index1": {
+    "parent": "J_Bip_R_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6055,
+      0.035,
+      1.3023
+    ],
+    "tail": [
+      0.6055,
+      0.035,
+      1.3356
+    ],
+    "length": 0.0332
+  },
+  "J_Bip_R_Index2": {
+    "parent": "J_Bip_R_Index1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6383,
+      0.0402,
+      1.3022
+    ],
+    "tail": [
+      0.6383,
+      0.0402,
+      1.3227
+    ],
+    "length": 0.0205
+  },
+  "J_Bip_R_Index3": {
+    "parent": "J_Bip_R_Index2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6586,
+      0.0425,
+      1.3015
+    ],
+    "tail": [
+      0.6586,
+      0.0425,
+      1.3258
+    ],
+    "length": 0.0242
+  },
+  "J_Bip_R_Index3_end": {
+    "parent": "J_Bip_R_Index3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6827,
+      0.0447,
+      1.3006
+    ],
+    "tail": [
+      0.6827,
+      0.0447,
+      1.3249
+    ],
+    "length": 0.0242
+  },
+  "J_Bip_R_Little1": {
+    "parent": "J_Bip_R_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6049,
+      -0.0132,
+      1.2999
+    ],
+    "tail": [
+      0.6049,
+      -0.0132,
+      1.3313
+    ],
+    "length": 0.0314
+  },
+  "J_Bip_R_Little2": {
+    "parent": "J_Bip_R_Little1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6363,
+      -0.0132,
+      1.2996
+    ],
+    "tail": [
+      0.6363,
+      -0.0132,
+      1.3177
+    ],
+    "length": 0.0181
+  },
+  "J_Bip_R_Little3": {
+    "parent": "J_Bip_R_Little2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6543,
+      -0.0141,
+      1.3003
+    ],
+    "tail": [
+      0.6543,
+      -0.0141,
+      1.3197
+    ],
+    "length": 0.0194
+  },
+  "J_Bip_R_Little3_end": {
+    "parent": "J_Bip_R_Little3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6737,
+      -0.0147,
+      1.3014
+    ],
+    "tail": [
+      0.6737,
+      -0.0147,
+      1.3208
+    ],
+    "length": 0.0194
+  },
+  "J_Bip_R_Middle1": {
+    "parent": "J_Bip_R_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6077,
+      0.0184,
+      1.3052
+    ],
+    "tail": [
+      0.6077,
+      0.0184,
+      1.3422
+    ],
+    "length": 0.037
+  },
+  "J_Bip_R_Middle2": {
+    "parent": "J_Bip_R_Middle1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6446,
+      0.0208,
+      1.3038
+    ],
+    "tail": [
+      0.6446,
+      0.0208,
+      1.3266
+    ],
+    "length": 0.0228
+  },
+  "J_Bip_R_Middle3": {
+    "parent": "J_Bip_R_Middle2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6673,
+      0.0217,
+      1.3014
+    ],
+    "tail": [
+      0.6673,
+      0.0217,
+      1.3264
+    ],
+    "length": 0.025
+  },
+  "J_Bip_R_Middle3_end": {
+    "parent": "J_Bip_R_Middle3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6923,
+      0.0226,
+      1.2998
+    ],
+    "tail": [
+      0.6923,
+      0.0226,
+      1.3248
+    ],
+    "length": 0.025
+  },
+  "J_Bip_R_Ring1": {
+    "parent": "J_Bip_R_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6083,
+      0.0026,
+      1.3051
+    ],
+    "tail": [
+      0.6083,
+      0.0026,
+      1.3394
+    ],
+    "length": 0.0343
+  },
+  "J_Bip_R_Ring2": {
+    "parent": "J_Bip_R_Ring1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6426,
+      0.0028,
+      1.3046
+    ],
+    "tail": [
+      0.6426,
+      0.0028,
+      1.3244
+    ],
+    "length": 0.0198
+  },
+  "J_Bip_R_Ring3": {
+    "parent": "J_Bip_R_Ring2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6624,
+      0.003,
+      1.3053
+    ],
+    "tail": [
+      0.6624,
+      0.003,
+      1.3266
+    ],
+    "length": 0.0214
+  },
+  "J_Bip_R_Ring3_end": {
+    "parent": "J_Bip_R_Ring3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6838,
+      0.0029,
+      1.3056
+    ],
+    "tail": [
+      0.6838,
+      0.0029,
+      1.3269
+    ],
+    "length": 0.0214
+  },
+  "J_Bip_R_Thumb1": {
+    "parent": "J_Bip_R_Hand",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.5436,
+      0.0313,
+      1.2899
+    ],
+    "tail": [
+      0.5436,
+      0.0313,
+      1.3364
+    ],
+    "length": 0.0465
+  },
+  "J_Bip_R_Thumb2": {
+    "parent": "J_Bip_R_Thumb1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.5759,
+      0.0647,
+      1.2872
+    ],
+    "tail": [
+      0.5759,
+      0.0647,
+      1.3158
+    ],
+    "length": 0.0286
+  },
+  "J_Bip_R_Thumb3": {
+    "parent": "J_Bip_R_Thumb2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.5972,
+      0.0838,
+      1.2857
+    ],
+    "tail": [
+      0.5972,
+      0.0838,
+      1.3074
+    ],
+    "length": 0.0217
+  },
+  "J_Bip_R_Thumb3_end": {
+    "parent": "J_Bip_R_Thumb3",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.6122,
+      0.0994,
+      1.2849
+    ],
+    "tail": [
+      0.6122,
+      0.0994,
+      1.3066
+    ],
+    "length": 0.0217
+  },
+  "J_Bip_L_UpperLeg": {
+    "parent": "J_Bip_C_Hips",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0768,
+      0.0023,
+      0.9041
+    ],
+    "tail": [
+      -0.0768,
+      0.0023,
+      1.0382
+    ],
+    "length": 0.1341
+  },
+  "J_Sec_L_SkirtBack0": {
+    "parent": "J_Bip_L_UpperLeg",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0797,
+      -0.1272,
+      0.9384
+    ],
+    "tail": [
+      -0.0797,
+      -0.1272,
+      1.0725
+    ],
+    "length": 0.1341
+  },
+  "J_Sec_L_SkirtBack1": {
+    "parent": "J_Sec_L_SkirtBack0",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0797,
+      -0.1272,
+      0.9384
+    ],
+    "tail": [
+      -0.0797,
+      -0.1272,
+      1.0748
+    ],
+    "length": 0.1364
+  },
+  "J_Sec_L_SkirtBack2": {
+    "parent": "J_Sec_L_SkirtBack1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.104,
+      -0.1802,
+      0.8151
+    ],
+    "tail": [
+      -0.104,
+      -0.1802,
+      0.9509
+    ],
+    "length": 0.1358
+  },
+  "J_Sec_L_SkirtBack2_end": {
+    "parent": "J_Sec_L_SkirtBack2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.1275,
+      -0.2282,
+      0.6903
+    ],
+    "tail": [
+      -0.1275,
+      -0.2282,
+      0.826
+    ],
+    "length": 0.1358
+  },
+  "J_Sec_L_SkirtFront0": {
+    "parent": "J_Bip_L_UpperLeg",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0721,
+      0.1453,
+      0.9093
+    ],
+    "tail": [
+      -0.0721,
+      0.1453,
+      1.0434
+    ],
+    "length": 0.1341
+  },
+  "J_Sec_L_SkirtFront1": {
+    "parent": "J_Sec_L_SkirtFront0",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0721,
+      0.1453,
+      0.9093
+    ],
+    "tail": [
+      -0.0721,
+      0.1453,
+      1.0364
+    ],
+    "length": 0.1271
+  },
+  "J_Sec_L_SkirtFront2": {
+    "parent": "J_Sec_L_SkirtFront1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0867,
+      0.1656,
+      0.7846
+    ],
+    "tail": [
+      -0.0867,
+      0.1656,
+      0.9399
+    ],
+    "length": 0.1552
+  },
+  "J_Sec_L_SkirtFront2_end": {
+    "parent": "J_Sec_L_SkirtFront2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.1043,
+      0.1908,
+      0.6325
+    ],
+    "tail": [
+      -0.1043,
+      0.1908,
+      0.7877
+    ],
+    "length": 0.1552
+  },
+  "J_Bip_L_LowerLeg": {
+    "parent": "J_Bip_L_UpperLeg",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0565,
+      -0.004,
+      0.5519
+    ],
+    "tail": [
+      -0.0565,
+      -0.004,
+      0.9672
+    ],
+    "length": 0.4153
+  },
+  "J_Bip_L_Foot": {
+    "parent": "J_Bip_L_LowerLeg",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0462,
+      -0.0252,
+      0.1373
+    ],
+    "tail": [
+      -0.0462,
+      -0.0252,
+      0.2647
+    ],
+    "length": 0.1275
+  },
+  "J_Bip_L_ToeBase": {
+    "parent": "J_Bip_L_Foot",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.0476,
+      0.0854,
+      0.0739
+    ],
+    "tail": [
+      -0.0476,
+      0.0854,
+      0.1191
+    ],
+    "length": 0.0452
+  },
+  "J_Bip_L_ToeBase_end": {
+    "parent": "J_Bip_L_ToeBase",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      -0.048,
+      0.1306,
+      0.0719
+    ],
+    "tail": [
+      -0.048,
+      0.1306,
+      0.1171
+    ],
+    "length": 0.0452
+  },
+  "J_Bip_R_UpperLeg": {
+    "parent": "J_Bip_C_Hips",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0775,
+      0.0023,
+      0.9041
+    ],
+    "tail": [
+      0.0775,
+      0.0023,
+      1.0382
+    ],
+    "length": 0.1341
+  },
+  "J_Sec_R_SkirtBack0": {
+    "parent": "J_Bip_R_UpperLeg",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0804,
+      -0.1272,
+      0.9384
+    ],
+    "tail": [
+      0.0804,
+      -0.1272,
+      1.0725
+    ],
+    "length": 0.1341
+  },
+  "J_Sec_R_SkirtBack1": {
+    "parent": "J_Sec_R_SkirtBack0",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0804,
+      -0.1272,
+      0.9384
+    ],
+    "tail": [
+      0.0804,
+      -0.1272,
+      1.0748
+    ],
+    "length": 0.1364
+  },
+  "J_Sec_R_SkirtBack2": {
+    "parent": "J_Sec_R_SkirtBack1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.1047,
+      -0.1802,
+      0.8151
+    ],
+    "tail": [
+      0.1047,
+      -0.1802,
+      0.9509
+    ],
+    "length": 0.1358
+  },
+  "J_Sec_R_SkirtBack2_end": {
+    "parent": "J_Sec_R_SkirtBack2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.1282,
+      -0.2282,
+      0.6903
+    ],
+    "tail": [
+      0.1282,
+      -0.2282,
+      0.826
+    ],
+    "length": 0.1358
+  },
+  "J_Sec_R_SkirtFront0": {
+    "parent": "J_Bip_R_UpperLeg",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0728,
+      0.1453,
+      0.9093
+    ],
+    "tail": [
+      0.0728,
+      0.1453,
+      1.0434
+    ],
+    "length": 0.1341
+  },
+  "J_Sec_R_SkirtFront1": {
+    "parent": "J_Sec_R_SkirtFront0",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0728,
+      0.1453,
+      0.9093
+    ],
+    "tail": [
+      0.0728,
+      0.1453,
+      1.0364
+    ],
+    "length": 0.1271
+  },
+  "J_Sec_R_SkirtFront2": {
+    "parent": "J_Sec_R_SkirtFront1",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0874,
+      0.1656,
+      0.7846
+    ],
+    "tail": [
+      0.0874,
+      0.1656,
+      0.9399
+    ],
+    "length": 0.1552
+  },
+  "J_Sec_R_SkirtFront2_end": {
+    "parent": "J_Sec_R_SkirtFront2",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.1049,
+      0.1908,
+      0.6325
+    ],
+    "tail": [
+      0.1049,
+      0.1908,
+      0.7877
+    ],
+    "length": 0.1552
+  },
+  "J_Bip_R_LowerLeg": {
+    "parent": "J_Bip_R_UpperLeg",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0572,
+      -0.004,
+      0.5519
+    ],
+    "tail": [
+      0.0572,
+      -0.004,
+      0.9672
+    ],
+    "length": 0.4153
+  },
+  "J_Bip_R_Foot": {
+    "parent": "J_Bip_R_LowerLeg",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0468,
+      -0.0252,
+      0.1373
+    ],
+    "tail": [
+      0.0468,
+      -0.0252,
+      0.2647
+    ],
+    "length": 0.1275
+  },
+  "J_Bip_R_ToeBase": {
+    "parent": "J_Bip_R_Foot",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0483,
+      0.0854,
+      0.0739
+    ],
+    "tail": [
+      0.0483,
+      0.0854,
+      0.1191
+    ],
+    "length": 0.0452
+  },
+  "J_Bip_R_ToeBase_end": {
+    "parent": "J_Bip_R_ToeBase",
+    "rest_euler_deg": [
+      90.0,
+      0.0,
+      0.0
+    ],
+    "rest_euler_rad": [
+      1.5708,
+      0.0,
+      0.0
+    ],
+    "head": [
+      0.0487,
+      0.1306,
+      0.0719
+    ],
+    "tail": [
+      0.0487,
+      0.1306,
+      0.1171
+    ],
+    "length": 0.0452
+  }
+}

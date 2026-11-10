@@ -259,6 +259,7 @@
     let activeGesture = null;
     let gestureTimer = 0;
     let gestureQueue = [];
+    let debugPose = false;  // set to true via console to freeze pose for testing
 
     function animate() {
       requestAnimationFrame(animate);
@@ -289,8 +290,8 @@
       lookTarget.position.y += (-mouseY*0.3+1.2 - lookTarget.position.y) * Math.min(1, dt*6);
       lookTarget.position.z = 2;
 
-      // Arms — skip if gesture is playing (gesture system takes over)
-      if (!activeGesture) {
+      // Arms — skip if gesture is playing or debug pose mode
+      if (!activeGesture && !debugPose) {
       switch (currentState) {
         case 'LISTENING':
           // Natural idle — arms at sides (slightly out to avoid dress clipping)
@@ -372,6 +373,22 @@
       speechEl.classList.toggle('active', state==='SPEAKING'||state==='REMINDER');
       if (state==='SPEAKING'||state==='REMINDER') speakPhase = 0;
     };
+
+    // ── Debug: bone rotation tester (type in console) ────────
+    // Usage: window.testBone('rightUpperArm', 0, 0, -1.5)
+    window.testBone = (name, x, y, z) => {
+      const b = getBone(name);
+      if (b) { b.rotation.set(x, y, z); console.log(`Set ${name} to (${x}, ${y}, ${z})`); }
+      else console.log(`Bone "${name}" not found`);
+    };
+    window.resetPose = () => {
+      ['rightUpperArm','rightLowerArm','leftUpperArm','leftLowerArm',
+       'rightHand','leftHand','head','neck','spine'].forEach(n => {
+        const b = getBone(n); if (b) b.rotation.set(0, 0, 0);
+      });
+      console.log('Reset to T-pose');
+    };
+    window.debugMode = (on) => { debugPose = on; console.log('Debug pose: ' + on); };
 
     // ── Gesture Animation System ─────────────────────────────
     // Gesture definitions — timed bone rotation + expression sequences
