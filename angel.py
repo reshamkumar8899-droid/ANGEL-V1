@@ -1251,7 +1251,12 @@ async def ws_handler(websocket):
     engine._loop = asyncio.get_running_loop()
     print(f"[Angel] Browser connected. ({len(engine._clients)} client(s))")
     try:
-        await websocket.send(json.dumps({"type": "config", "has_key": bool(engine._api_key)}))
+        await websocket.send(json.dumps({
+            "type": "config",
+            "has_key": bool(engine._api_key),
+            "backend": LLM_BACKEND,
+            "current_model": engine._current_model,
+        }))
         async for raw in websocket:
             try:
                 msg = json.loads(raw)
@@ -1275,6 +1280,26 @@ async def ws_handler(websocket):
                     await websocket.send(json.dumps({"type": "wake_state", "on": engine._wake_active}))
                 elif t == "ping":
                     await websocket.send(json.dumps({"type": "pong"}))
+                elif t == "fetch_models":
+                    models = engine.fetch_models()
+                    await websocket.send(json.dumps({
+                        "type": "models",
+                        "models": models,
+                        "current": engine._current_model,
+                    }))
+                elif t == "switch_model":
+                    model_id = msg.get("model", "")
+                    if model_id:
+                        engine.switch_model(model_id)
+                        # Broadcast model change to all clients
+                        for client in engine._clients:
+                            try:
+                                await client.send(json.dumps({
+                                    "type": "model_changed",
+                                    "model": model_id,
+                                }))
+                            except Exception:
+                                pass
             except Exception as e:
                 print(f"[Angel] WS message error: {e}")
     except websockets.exceptions.ConnectionClosed:

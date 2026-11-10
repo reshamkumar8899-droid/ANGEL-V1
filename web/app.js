@@ -9,6 +9,7 @@ const WS_URL = 'ws://127.0.0.1:7772';
 let socket = null;
 let micActive = false;
 let isWaiting = false;
+let currentBackend = 'gemini';   // updated on config message
 
 // ── WebSocket ─────────────────────────────────────────────
 function connect() {
@@ -74,7 +75,28 @@ function handleEvent(msg) {
       clearTranscript();
       break;
     case 'config':
-      if (msg.has_key) hideSetup(); else showSetup();
+      currentBackend = msg.backend || 'gemini';
+      if (msg.has_key) {
+        hideSetup();
+      } else if (currentBackend === 'gemini') {
+        showSetup();   // only show Gemini key modal for Gemini backend
+      } else {
+        hideSetup();   // OpenAI backend — key comes from .env, no modal
+      }
+      // Show model picker for OpenAI-compatible backends
+      if (currentBackend === 'openai') {
+        const picker = document.getElementById('modelPicker');
+        if (picker) picker.style.display = '';
+        if (msg.current_model) setCurrentModelDisplay(msg.current_model);
+        // Auto-fetch models on connect
+        send({ type: 'fetch_models' });
+      }
+      break;
+    case 'models':
+      populateModelDropdown(msg.models || [], msg.current || '');
+      break;
+    case 'model_changed':
+      setCurrentModelDisplay(msg.model);
       break;
     case 'wake':
       handleWake();
@@ -201,7 +223,11 @@ function hideSetup() {
 }
 async function saveApiKey() {
   // The key lives in .env (never in the browser) — keeps it out of the page and out of reach of scripts.
-  alert('Open the .env file in your Angel folder, set GEMINI_API_KEY=your_key, then restart Angel.');
+  if (currentBackend === 'openai') {
+    alert('Open the .env file in your Angel folder, set OPENAI_API_KEY and OPENAI_BASE_URL, then restart Angel.');
+  } else {
+    alert('Open the .env file in your Angel folder, set GEMINI_API_KEY=your_key, then restart Angel.');
+  }
 }
 
 // ── Chat log helpers ──────────────────────────────────────
@@ -243,6 +269,82 @@ function flash(el) {
   el.style.borderColor='#ef4444'; el.style.boxShadow='0 0 0 2px rgba(239,68,68,.25)';
   setTimeout(()=>{ el.style.borderColor=''; el.style.boxShadow=''; }, 900);
 }
+
+// ── Model picker ──────────────────────────────────────────
+function setCurrentModelDisplay(modelId) {
+  const el = document.getElementById('currentModelName');
+  if (el) {
+    // Show a shorter display name (strip provider prefix like "openai/")
+    const short = modelId.includes('/') ? modelId.split('/').pop() : modelId;
+    el.textContent = short;
+    el.title = modelId;
+  }
+}
+
+function toggleModelPicker() {
+  const dropdown = document.getElementById('modelDropdown');
+  if (dropdown) dropdown.classList.toggle('open');
+}
+
+function refreshModels() {
+  const list = document.getElementById('modelList');
+  if (list) list.innerHTML = '<div class="model-loading">Loading models...</div>';
+  send({ type: 'fetch_models' });
+}
+
+function populateModelDropdown(models, currentModel) {
+  const list = document.getElementById('modelList');
+  if (!list) return;
+  if (models.length === 0) {
+    list.innerHTML = '<div class="model-loading">No models available</div>';
+    return;
+  }
+  list.innerHTML = '';
+  // Group by owned_by (provider)
+  const groups = {};
+  models.forEach(m => {
+    const provider = m.owned_by || 'other';
+    if (!groups[provider]) groups[provider] = [];
+    groups[provider].push(m);
+  });
+  Object.keys(groups).sort().forEach(provider => {
+    const header = document.createElement('div');
+    header.className = 'model-group-header';
+    header.textContent = provider.toUpperCase();
+    list.appendChild(header);
+    groups[provider].forEach(m => {
+      const item = document.createElement('div');
+      item.className = 'model-item' + (m.id === currentModel ? ' active' : '');
+      item.textContent = m.id;
+      item.title = m.id;
+      item.onclick = () => selectModel(m.id);
+      list.appendChild(item);
+    });
+  });
+  setCurrentModelDisplay(currentModel);
+}
+
+function selectModel(modelId) {
+  send({ type: 'switch_model', model: modelId });
+  // Close dropdown
+  const dropdown = document.getElementById('modelDropdown');
+  if (dropdown) dropdown.classList.remove('open');
+  // Immediately update display
+  setCurrentModelDisplay(modelId);
+  // Mark the selected item
+  document.querySelectorAll('.model-item').forEach(el => {
+    el.classList.toggle('active', el.textContent === modelId);
+  });
+}
+
+// Close model dropdown when clicking outside
+document.addEventListener('click', (e) => {
+  const picker = document.getElementById('modelPicker');
+  const dropdown = document.getElementById('modelDropdown');
+  if (picker && dropdown && !picker.contains(e.target)) {
+    dropdown.classList.remove('open');
+  }
+});
 
 // ── Keyboard ──────────────────────────────────────────────
 document.addEventListener('keydown', (e) => {
@@ -334,3 +436,6 @@ window.toggleChat       = toggleChat;
 window.saveApiKey        = saveApiKey;
 window.minimizeOverlay  = minimizeOverlay;
 window.closeOverlay     = closeOverlay;
+window.toggleModelPicker = toggleModelPicker;
+window.refreshModels     = refreshModels;
+window.selectModel       = selectModel;

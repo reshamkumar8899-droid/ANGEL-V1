@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@100;300;400;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css?v=12"/>
+  <link rel="stylesheet" href="style.css?v=13"/>
 </head>
 <body>
 
@@ -22,10 +22,10 @@
     <div class="setup-box">
       <div class="setup-logo">A</div>
       <h2 class="setup-title">Angel — Variant I</h2>
-      <p class="setup-sub">Enter your Gemini API key to bring Angel online, Daddy.</p>
-      <input type="password" class="setup-input" id="setupKey" placeholder="AIza..."/>
+      <p class="setup-sub">Enter your API key to bring Angel online, Daddy.</p>
+      <input type="password" class="setup-input" id="setupKey" placeholder="API key..."/>
       <button class="setup-btn" onclick="saveApiKey()">ACTIVATE</button>
-      <a class="setup-link" href="https://aistudio.google.com/app/apikey" target="_blank">Get a free API key →</a>
+      <a class="setup-link" href="https://aistudio.google.com/app/apikey" target="_blank">Get a free Gemini API key →</a>
     </div>
   </div>
 
@@ -45,6 +45,23 @@
         <span class="state-label" id="stateLabel">CONNECTING</span>
       </div>
       <div class="header-right">
+        <!-- Model selector (only visible with OpenAI backend) -->
+        <div class="model-picker" id="modelPicker" style="display:none;">
+          <button class="model-picker-btn" id="modelPickerBtn" onclick="toggleModelPicker()" title="Switch AI model">
+            <span class="model-icon">⚡</span>
+            <span class="model-name" id="currentModelName">model</span>
+            <span class="model-arrow">▾</span>
+          </button>
+          <div class="model-dropdown" id="modelDropdown">
+            <div class="model-dropdown-header">
+              <span>Select Model</span>
+              <button class="model-refresh-btn" onclick="refreshModels()" title="Refresh models">↻</button>
+            </div>
+            <div class="model-list" id="modelList">
+              <div class="model-loading">Loading models...</div>
+            </div>
+          </div>
+        </div>
         <span class="user-badge">DADDY</span>
       </div>
       <!-- Overlay mode controls -->
@@ -108,7 +125,7 @@
 
   </div>
 
-  <script src="app.js?v=12"></script>
+  <script src="app.js?v=13"></script>
 
   <script type="importmap">
   {
